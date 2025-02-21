@@ -229,7 +229,7 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="170dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/flower_sample" />
                         <LinearLayout
@@ -282,7 +282,7 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="175dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/pixie_posy" />
                         <LinearLayout
@@ -458,7 +458,7 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="180dp"
+                            android:layout_height="160dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/elevenpink" />
                         <LinearLayout
@@ -627,8 +627,8 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:scaleType="fitStart"
+                            android:layout_height="170dp"
+                            android:scaleType="fitCenter"
                             android:src="@drawable/lilies_bouquet" />
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -688,7 +688,7 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="180dp"
+                            android:layout_height="160dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/valentine" />
                         <LinearLayout
@@ -916,7 +916,7 @@
                         android:layout_height="250dp">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="180dp"
+                            android:layout_height="160dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/white_daisies" />
                         <LinearLayout
