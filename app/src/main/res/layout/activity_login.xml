@@ -36,7 +36,7 @@
         android:id="@+id/emailText"
         android:layout_width="36dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
         android:text="Email"
         android:textSize="14sp"
@@ -57,7 +57,7 @@
         android:id="@+id/passwordText"
         android:layout_width="64dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
         android:text="Password"
         android:textSize="14sp"
@@ -107,7 +107,7 @@
             android:layout_height="18dp"
             android:text="Sign up"
             android:layout_marginTop="15dp"
-            android:textColor="#000000"
+            android:textColor="#111133"
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
 

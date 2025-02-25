@@ -26,7 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:layout_weight="100"
-                android:padding="8dp"
                 android:layout_marginBottom="10dp"
                 >
                 <!-- Banner Card -->
@@ -35,7 +34,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginTop="10dp"
+
                     android:layout_weight="50"
                     app:cardCornerRadius="7dp"
                     android:backgroundTint="#FDE9EC">
@@ -48,22 +47,32 @@
                             android:layout_alignParentBottom="true"
                             android:orientation="vertical"
                             android:padding="8dp">
+
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/kaisei_harunoumi_bold"
+                                android:layout_height="59dp"
+                                android:fontFamily="@font/ephesis"
                                 android:gravity="center"
                                 android:text="@string/fleurhaven"
                                 android:textColor="#573F53"
-                                android:textSize="40sp" />
+                                android:textSize="50sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/kaisei_harunoumi_bold"
                                 android:gravity="center"
                                 android:text="@string/bannerline"
-                                android:textColor="#573F53"
+                                android:textColor="#000"
                                 android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/albertsans"
+                                android:gravity="center"
+                                android:text="Shop with out lovely bouquet"
+                                android:textColor="#000"
+                                android:textSize="20sp" />
                         </LinearLayout>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -121,25 +130,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Rainbow Posies"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
+                                android:textColor="#000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -148,7 +159,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -175,14 +186,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Daisy Kiss"
+                                android:textColor="#000"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -190,10 +202,10 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -236,25 +248,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:gravity="center"
                                 android:textStyle="bold"
+                                android:textColor="#000"
                                 android:text="Just Because Flowers"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
+                                android:textColor="#000"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -263,6 +276,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
+
                                 android:fontFamily="@font/junge"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
@@ -289,25 +303,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Pixie Posy Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -316,7 +331,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -351,25 +366,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Blush Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -378,7 +394,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -404,25 +420,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Dangwa"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
+                                android:textColor="#000"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -431,7 +449,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -465,25 +483,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="11 Pink Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -492,7 +512,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -518,25 +538,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Carnation"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -545,7 +566,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -581,25 +602,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Asteroid Destroyer"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -608,7 +630,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -634,13 +656,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
+                                android:textColor="#000"
                                 android:text="Lilies Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
@@ -649,10 +672,10 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -661,7 +684,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -695,25 +718,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Valentine Bouquet"
                                 android:gravity="center"
+                                android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -722,7 +746,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -748,14 +772,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="White Roses Bouquet"
+                                android:textColor="#000"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -763,10 +788,10 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -775,7 +800,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -809,25 +834,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="True Love Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -836,7 +862,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -862,25 +888,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="White Tulips"
                                 android:gravity="center"
                                 android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -889,7 +916,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -923,25 +950,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="White Daisies"
                                 android:gravity="center"
                                 android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -950,7 +978,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -976,25 +1004,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Orchids Bouquet"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -1003,7 +1032,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -1037,25 +1066,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Assorted Flowers"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -1064,7 +1094,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -1090,25 +1120,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:background="#FDE9EC"
+                            android:background="#FCF4F5"
                             android:orientation="vertical"
                             android:padding="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="Eternal Heart Box"
                                 android:gravity="center"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
+                                android:textColor="#000"
                                 android:layout_marginBottom="10dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="₱ 1000"
                                 android:gravity="center"
-                                android:textStyle="bold"
+                                android:textColor="#000"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="10dp"/>
                             <Button
@@ -1117,7 +1148,7 @@
                                 android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:textSize="11sp"
-                                android:fontFamily="@font/junge"
+                                android:fontFamily="@font/albertsans"
                                 android:text="@string/addtocart"
                                 android:background="@drawable/add_to_cart_button" />
 
@@ -1135,9 +1166,9 @@
     <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#FBDADE"
+        android:background="#FDE9EC"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -1149,22 +1180,22 @@
 
         <ImageButton
             android:id="@+id/cart_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="150dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/cart"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/shopping_cart" />
 
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="5dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/person_icon" />
 
     </LinearLayout>

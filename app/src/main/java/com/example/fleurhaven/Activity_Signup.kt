@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -18,6 +19,11 @@ class Activity_Signup : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         val passwordConfEditText = findViewById<EditText>(R.id.passwconfEditText)
         val submitButton = findViewById<Button>(R.id.submitBtn)
+        val signinText = findViewById<TextView>(R.id.signinText)
+
+        signinText.setOnClickListener {
+            startActivity(Intent(this, Activity_Signup::class.java)) // Open Signup Activity
+        }
 
         submitButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()

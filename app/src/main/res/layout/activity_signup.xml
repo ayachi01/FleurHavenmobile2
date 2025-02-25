@@ -36,7 +36,7 @@
         android:id="@+id/emailText"
         android:layout_width="36dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="15dp"
         android:text="Email"
         android:textSize="14sp"
@@ -49,14 +49,15 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:background="@drawable/text_border"
+        android:textSize="14sp"
         android:elevation="5dp"
-        android:hint="Email"
+        android:hint="example@gmail.com"
         android:padding="10dp" />
 
     <TextView
         android:layout_width="64dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="15dp"
         android:text="Password"
         android:textSize="14sp"
@@ -69,6 +70,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:background="@drawable/text_border"
+        android:textSize="14sp"
         android:elevation="5dp"
         android:hint="Password"
         android:inputType="textPassword"
@@ -77,9 +79,9 @@
     <TextView
         android:layout_width="150dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="15dp"
-        android:text="Password Confirmation"
+        android:text="Confirm Password"
         android:textSize="14sp"
         android:textColor="#000000" />
 
@@ -91,6 +93,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/text_border"
         android:elevation="5dp"
+        android:textSize="14sp"
         android:hint="Password Confirmation"
         android:inputType="textPassword"
         android:padding="10dp" />
@@ -104,9 +107,34 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/submit_shape"
         android:textSize="18dp"
-        android:text="SIGN IN"
+        android:text="SIGN UP"
         android:textColor="#000000"
         android:elevation="10dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginTop="15dp"
+            android:text="Already have an account?"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/signinText"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+
+            android:text="Sign in"
+            android:layout_marginTop="15dp"
+            android:textColor="#111133"
+            android:layout_marginLeft="5dp"/>
+
+    </LinearLayout>
 
 
 

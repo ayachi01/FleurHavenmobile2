@@ -147,12 +147,13 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- BOTTOM NAVIGATION BAR / TOTAL -->
+
+    <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#FBDADE"
+        android:background="#FDE9EC"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -164,22 +165,22 @@
 
         <ImageButton
             android:id="@+id/cart_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="150dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/cart"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/shopping_cart" />
 
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="5dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/person_icon" />
 
     </LinearLayout>

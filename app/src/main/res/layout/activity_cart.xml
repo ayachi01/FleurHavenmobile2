@@ -14,31 +14,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="64dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:gravity="center"
-            >
         <TextView
-            android:id="@+id/tv_cart"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:id="@+id/tv_checkout_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/albertsans"
-            android:text="@string/tvcart"
-            android:textSize="25sp"
-            tools:ignore="MissingConstraints"
+            android:text="Shopping Cart"
+            android:textSize="24sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="140dp"
-            tools:layout_editor_absoluteY="63dp" />
+            android:fontFamily="@font/albertsans"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_horizontal"/>
 
-        </LinearLayout>
         <View
             android:padding="10dp"
             android:layout_width="match_parent"
@@ -58,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/albertsans"
+            android:textColor="#000"
             android:text="@string/tvproduct"
             android:textSize="18sp"
             android:layout_margin="15dp"
@@ -72,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#FBF2F2">
+            android:background="#EEEEEE">
             <View
                 android:id="@+id/frame1"
                 android:layout_width="100dp"
@@ -89,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#FBF2F2"
+            android:background="#EEEEEE"
             android:layout_marginTop="15dp">
             <View
                 android:id="@+id/frame2"
@@ -107,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#FBF2F2"
+            android:background="#EEEEEE"
             android:layout_marginTop="15dp">
             <View
                 android:id="@+id/frame3"
@@ -141,6 +132,7 @@
             android:fontFamily="@font/albertsans"
             android:text="@string/tvtotal"
             android:textSize="20sp"
+            android:textColor="#000"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
@@ -148,12 +140,14 @@
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="634dp" />
 
+
         <TextView
             android:id="@+id/tv_ammount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/albertsans"
             android:text="₱ 1500"
+            android:textColor="#000"
             android:textSize="20sp"
             android:layout_margin="12dp"
             tools:ignore="MissingConstraints"
@@ -176,12 +170,13 @@
             />
 
     </LinearLayout>
-    <!-- BOTTOM NAVIGATION BAR / TOTAL -->
+
+    <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#FBDADE"
+        android:background="#FDE9EC"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -193,22 +188,22 @@
 
         <ImageButton
             android:id="@+id/cart_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="150dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/cart"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/shopping_cart" />
 
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginRight="5dp"
-            android:scaleType="fitCenter"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/person_icon" />
 
     </LinearLayout>
