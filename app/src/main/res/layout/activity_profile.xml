@@ -24,7 +24,7 @@
 
         <!-- Profile Picture Icon-->
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/small_profile_icon"
             android:layout_width="50dp"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
@@ -50,27 +50,46 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <!-- Address (Placed Under Email) -->
-            <TextView
-                android:id="@+id/addresstxt"
+            <!-- Address Container -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/albertsans"
-                android:text="Mangaldan, Pangasinan"
-                android:textSize="13sp"
-                android:textColor="#666"
-                android:layout_marginTop="4dp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <!-- Address Text -->
+                <TextView
+                    android:id="@+id/addresstxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/albertsans"
+                    android:text="Set your address"
+                    android:textSize="14sp"
+                    android:textColor="#666" />
+
+                <!-- Edit Address Icon -->
+                <ImageButton
+                    android:id="@+id/editaddress_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:src="@drawable/edit_address_icon"
+                    android:layout_marginLeft="6dp"
+                    android:alpha="0.5"/>
+            </LinearLayout>
         </LinearLayout>
 
+
+
         <!--Settings Icon-->
-        <ImageView
-            android:id="@+id/small_profile_icon"
+        <ImageButton
+            android:id="@+id/settings_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
-            android:src="@drawable/settings_icon" />
+            android:src="@drawable/settings_icon"
+            />
 
     </LinearLayout>
 

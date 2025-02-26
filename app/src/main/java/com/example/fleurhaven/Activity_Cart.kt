@@ -2,9 +2,11 @@ package com.example.fleurhaven
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Activity_Cart : AppCompatActivity() {
@@ -36,8 +38,22 @@ class Activity_Cart : AppCompatActivity() {
         }
 
         checkout.setOnClickListener {
-            val intent = Intent(this, Activity_Checkout::class.java)
-            startActivity(intent)
+            if (!isAddressSet()) {
+                // Address not set = go to Activity_Profile
+                val intent = Intent(this, Activity_Profile::class.java)
+                startActivity(intent)
+            } else {
+                // Address is set = proceed to Activity_Checkout
+                val intent = Intent(this, Activity_Checkout::class.java)
+                startActivity(intent)
+            }
         }
+    }
+
+    private fun isAddressSet(): Boolean {
+        val sharedPreferences: SharedPreferences = getSharedPreferences("User   Profile", MODE_PRIVATE)
+        val address = sharedPreferences.getString("address", null)
+        Toast.makeText(this, "Address confirmed!", Toast.LENGTH_SHORT).show()
+        return address != null
     }
 }
