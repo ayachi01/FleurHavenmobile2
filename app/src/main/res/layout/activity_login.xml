@@ -8,29 +8,51 @@
     android:orientation="vertical"
     tools:context=".Activity_Login">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="241dp"
-        android:layout_height="49dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="150dp"
-        android:fontFamily="@font/kaisei_harunoumi_bold"
-        android:text="Fleur Haven"
-        android:textColor="#573F53"
-        android:textSize="40sp"
-        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="256dp"
-        android:layout_height="26dp"
+        android:id="@+id/textView"
+        android:layout_width="239dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/kaisei_harunoumi_bold"
-        android:text="Reserve the beauty, Share the bloom"
+        android:layout_marginTop="150dp"
+        android:fontFamily="@font/ephesis"
+        android:text="Fleur Haven"
         android:textColor="#573F53"
-        android:textSize="14sp"
+        android:textSize="55sp"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="192dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/albertsans"
+            android:text="Reserve the beauty, Share the"
+            android:textColor="#573F53"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="48dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/albertsans"
+            android:text=" bloom."
+            android:textColor="#EE91AE"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/emailText"
