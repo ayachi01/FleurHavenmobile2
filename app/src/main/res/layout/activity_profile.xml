@@ -88,8 +88,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
-            android:src="@drawable/settings_icon"
-            />
+            android:src="@drawable/settings_icon" />
 
     </LinearLayout>
 

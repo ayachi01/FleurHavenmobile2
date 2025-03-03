@@ -1178,26 +1178,51 @@
         android:paddingBottom="5dp"
         android:weightSum="4">
 
-        <ImageButton
-            android:id="@+id/cart_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="150dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/cart"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/shopping_cart" />
+        <!-- FrameLayout containing Cart Icon and Badge -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <!-- Cart Icon -->
+            <ImageButton
+                android:id="@+id/cart_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/cart"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/shopping_cart" />
+
+            <!-- Cart Count Badge -->
+            <TextView
+                android:id="@+id/cart_count"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/badge_background"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_gravity="top|right"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="3dp"/>
+        </FrameLayout>
+
+        <!-- Profile Icon -->
         <ImageButton
             android:id="@+id/profile_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="5dp"
+            android:layout_marginStart="150dp"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/person_icon" />
 
     </LinearLayout>
+
 
 </RelativeLayout>
