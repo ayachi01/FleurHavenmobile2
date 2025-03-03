@@ -1,45 +1,48 @@
-
 package com.example.fleurhaven
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fleurhaven.api.RetrofitClient
+import com.example.fleurhaven.models.UserResponse
+import com.example.fleurhaven.models.SignupRequest
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Activity_Login : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Get references to UI elements
         val emailEditText = findViewById<EditText>(R.id.emailEditText)
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         val loginButton = findViewById<Button>(R.id.loginBtn)
         val signUpText = findViewById<TextView>(R.id.signupText)
 
-        // Handle "Sign Up" click event
+        // Redirect to Signup Activity
         signUpText.setOnClickListener {
-            startActivity(Intent(this, Activity_Signup::class.java)) // Open Signup Activity
+            startActivity(Intent(this, Activity_Signup::class.java))
+            finish()
         }
 
-        // Handle "Login" button click
+        // Handle login button click
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim() // Get user email
-            val password = passwordEditText.text.toString().trim() // Get user password
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
-            // Validate inputs
+            // Input validation
             if (email.isEmpty()) {
                 emailEditText.error = "Email is required"
                 return@setOnClickListener
             }
-            // Check email format (@gmail.com)
-            if (!email.endsWith("@gmail.com")) {
-                Toast.makeText(this, "Incorrect Email Format", Toast.LENGTH_SHORT).show()
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.error = "Invalid email format"
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
@@ -47,23 +50,36 @@ class Activity_Login : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Retrieve stored email and password from SharedPreferences
-            val sharedPref = getSharedPreferences("user_data", MODE_PRIVATE)
-            val storedEmail = sharedPref.getString("email", null)
-            val storedPassword = sharedPref.getString("password", null)
+            // Create SignupRequest object
+            val request = SignupRequest(email, password)
 
-            // Check if the entered credentials match the stored ones
-            if (email == storedEmail && password == storedPassword) {
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+            // Perform login request
+            RetrofitClient.instance.loginUser(request)
+                .enqueue(object : Callback<UserResponse> {
+                    override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                        if (response.isSuccessful) {
+                            val userResponse = response.body()
+                            if (userResponse != null) {
+                                if (userResponse.success) {
+                                    Toast.makeText(this@Activity_Login, userResponse.message, Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(this@Activity_Login, Activity_Main::class.java))
+                                    finish()
+                                } else {
+                                    Toast.makeText(this@Activity_Login, "Login failed: ${userResponse.message}", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                Toast.makeText(this@Activity_Login, "Error: Empty response from server", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(this@Activity_Login, "Error: ${response.code()} - ${response.message()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-                // Navigate to Activity_Main if login is successful
-                val intent = Intent(this, Activity_Main::class.java)
-                startActivity(intent)
-                finish() // Close the Login Activity
-            } else {
-                // If credentials do not match, show error
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
-            }
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        Toast.makeText(this@Activity_Login, "Network error: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+                        Log.e("Activity_Login", "Login failed", t)
+                    }
+                })
         }
     }
 }
