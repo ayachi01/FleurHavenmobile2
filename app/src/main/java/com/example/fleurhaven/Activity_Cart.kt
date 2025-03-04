@@ -26,6 +26,9 @@ class Activity_Cart : AppCompatActivity() {
         val closeButton = findViewById<ImageButton>(R.id.btn_close)
         val closeButton2 = findViewById<ImageButton>(R.id.btn_close2)
         val closeButton3 = findViewById<ImageButton>(R.id.btn_close3)
+        val closeButton4 = findViewById<ImageButton>(R.id.btn_close4)
+        val closeButton5 = findViewById<ImageButton>(R.id.btn_close5)
+        val closeButton6 = findViewById<ImageButton>(R.id.btn_close6)
         val cartItemQuantity = findViewById<TextView>(R.id.tv_quantity)
         val decreaseButton = findViewById<Button>(R.id.btn_decrease)
         val increaseButton = findViewById<Button>(R.id.btn_increase)
@@ -35,6 +38,7 @@ class Activity_Cart : AppCompatActivity() {
         val cartItemQuantity3 = findViewById<TextView>(R.id.tv_quantity3)
         val decreaseButton3 = findViewById<Button>(R.id.btn_decrease3)
         val increaseButton3 = findViewById<Button>(R.id.btn_increase3)
+        val cartItemQuantity4 = findViewById<TextView>(R.id.tv_quantity4)
 
         val cartItemName1 = findViewById<TextView>(R.id.flower_name)
         val cartItemPrice1 = findViewById<TextView>(R.id.flower_price)
@@ -45,6 +49,11 @@ class Activity_Cart : AppCompatActivity() {
         val cartItemName3 = findViewById<TextView>(R.id.flower_name3)
         val cartItemPrice3 = findViewById<TextView>(R.id.flower_price3)
         val cartItemImage3 = findViewById<ImageView>(R.id.frame3)
+        val cartItemPrice4 = findViewById<TextView>(R.id.flower_price4)
+        val cartItemQuantity5 = findViewById<TextView>(R.id.tv_quantity5)
+        val cartItemPrice5 = findViewById<TextView>(R.id.flower_price5)
+        val cartItemQuantity6 = findViewById<TextView>(R.id.tv_quantity6)
+        val cartItemPrice6 = findViewById<TextView>(R.id.flower_price6)
         val tvAmount = findViewById<TextView>(R.id.tv_amount) // TextView for total amount
 
         closeButton.setOnClickListener {
@@ -55,6 +64,15 @@ class Activity_Cart : AppCompatActivity() {
         }
         closeButton3.setOnClickListener {
             removeItemFromCart(2)
+        }
+        closeButton4.setOnClickListener {
+            removeItemFromCart(3)
+        }
+        closeButton5.setOnClickListener {
+            removeItemFromCart(4)
+        }
+        closeButton6.setOnClickListener {
+            removeItemFromCart(5)
         }
 
         // Load cart items from SharedPreferences
@@ -71,6 +89,10 @@ class Activity_Cart : AppCompatActivity() {
         setupQuantityChangeListeners(cartItemQuantity, cartItemPrice1, 0)
         setupQuantityChangeListeners(cartItemQuantity2, cartItemPrice2, 1)
         setupQuantityChangeListeners(cartItemQuantity3, cartItemPrice3, 2)
+        setupQuantityChangeListeners(cartItemQuantity4, cartItemPrice4, 3)
+        setupQuantityChangeListeners(cartItemQuantity5, cartItemPrice5, 4)
+        setupQuantityChangeListeners(cartItemQuantity6, cartItemPrice6, 5)
+
 
         cartIcon.setOnClickListener {
             val intent = Intent(this, Activity_Cart::class.java)
@@ -106,6 +128,9 @@ class Activity_Cart : AppCompatActivity() {
             0 -> findViewById<Button>(R.id.btn_decrease)
             1 -> findViewById<Button>(R.id.btn_decrease2)
             2 -> findViewById<Button>(R.id.btn_decrease3)
+            3 -> findViewById<Button>(R.id.btn_decrease4)
+            4 -> findViewById<Button>(R.id.btn_decrease5)
+            5 -> findViewById<Button>(R.id.btn_decrease6)
             else -> null
         }
 
@@ -113,6 +138,9 @@ class Activity_Cart : AppCompatActivity() {
             0 -> findViewById<Button>(R.id.btn_increase)
             1 -> findViewById<Button>(R.id.btn_increase2)
             2 -> findViewById<Button>(R.id.btn_increase3)
+            3 -> findViewById<Button>(R.id.btn_increase4)
+            4 -> findViewById<Button>(R.id.btn_increase5)
+            5 -> findViewById<Button>(R.id.btn_increase6)
             else -> null
         }
 
@@ -171,6 +199,15 @@ class Activity_Cart : AppCompatActivity() {
         val cartItemName3 = findViewById<TextView>(R.id.flower_name3)
         val cartItemPrice3 = findViewById<TextView>(R.id.flower_price3)
         val cartItemImage3 = findViewById<ImageView>(R.id.frame3)
+        val cartItemPrice4 = findViewById<TextView>(R.id.flower_price4)
+        val cartItemImage4 = findViewById<ImageView>(R.id.frame4)
+        val cartItemName4 = findViewById<TextView>(R.id.flower_name4)
+        val cartItemImage5 = findViewById<ImageView>(R.id.frame5)
+        val cartItemPrice5 = findViewById<TextView>(R.id.flower_price5)
+        val cartItemName5 = findViewById<TextView>(R.id.flower_name5)
+        val cartItemName6 = findViewById<TextView>(R.id.flower_name6)
+        val cartItemImage6 = findViewById<ImageView>(R.id.frame6)
+        val cartItemPrice6 = findViewById<TextView>(R.id.flower_price6)
         val tvAmount = findViewById<TextView>(R.id.tv_amount)
 
         totalAmount = 0.0 // Reset total amount
@@ -211,6 +248,42 @@ class Activity_Cart : AppCompatActivity() {
                 cartItemPrice3.text = ""
                 cartItemImage3.setImageDrawable(null)
             }
+            if (cartItems.size > 3) {
+                val item4 = cartItems[3].split("|")
+                cartItemName4.text = item4[0]
+                cartItemPrice4.text = item4[1]
+                cartItemImage4.setImageResource(item4[2].toInt())
+                totalAmount += extractPrice(item4[1])
+            } else {
+                cartItemName4.text = ""
+                cartItemPrice4.text = ""
+                cartItemImage4.setImageDrawable(null)
+            }
+            if (cartItems.size > 4) {
+                val item5 = cartItems[4].split("|")
+                cartItemName5.text = item5[0]
+                cartItemPrice5.text = item5[1]
+                cartItemImage5.setImageResource(item5[2].toInt())
+                totalAmount += extractPrice(item5[1])
+            } else {
+                cartItemName5.text = ""
+                cartItemPrice5.text = ""
+                cartItemImage5.setImageDrawable(null)
+            }
+
+            if (cartItems.size > 5) {
+                val item6 = cartItems[5].split("|")
+                cartItemName6.text = item6[0]
+                cartItemPrice6.text = item6[1]
+                cartItemImage6.setImageResource(item6[2].toInt())
+                totalAmount += extractPrice(item6[1])
+            } else {
+                cartItemName6.text = ""
+                cartItemPrice6.text = ""
+                cartItemImage6.setImageDrawable(null)
+            }
+
+
 
             // Update the total amount TextView
             val tvAmount = findViewById<TextView>(R.id.tv_amount)
