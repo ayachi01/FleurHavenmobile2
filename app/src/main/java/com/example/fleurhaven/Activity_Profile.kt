@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fleurhaven.Activity_Login
 
 class Activity_Profile : AppCompatActivity() {
 
@@ -25,7 +23,7 @@ class Activity_Profile : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("User   Profile", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("User  Profile", Context.MODE_PRIVATE)
 
         // Retrieve stored email from SharedPreferences
         val profilePref = getSharedPreferences("user_data", MODE_PRIVATE)
@@ -50,8 +48,13 @@ class Activity_Profile : AppCompatActivity() {
 
         // Set click listeners
         cartIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Cart::class.java)
-            startActivity(intent)
+            val savedAddress = sharedPreferences.getString("address", null)
+            if (savedAddress == null) {
+                Toast.makeText(this, "Please set your address before proceeding to the cart.", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, Activity_Cart::class.java)
+                startActivity(intent)
+            }
         }
 
         editAddress.setOnClickListener {

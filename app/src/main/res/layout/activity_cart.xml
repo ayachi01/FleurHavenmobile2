@@ -404,13 +404,13 @@
 
 
         <TextView
-            android:id="@+id/tv_ammount"
+            android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/albertsans"
-            android:text="₱ 1500"
+            android:text="₱ 0"
             android:textColor="#000"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_margin="12dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="20dp"

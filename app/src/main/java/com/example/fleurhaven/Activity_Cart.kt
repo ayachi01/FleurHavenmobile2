@@ -9,14 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.content.SharedPreferences
+import android.util.Log
 
 class Activity_Cart : AppCompatActivity() {
+
+    private var totalAmount: Double = 0.0 // Variable to hold the total amount
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-
-        var quantity: Int = 1
 
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
@@ -44,98 +45,17 @@ class Activity_Cart : AppCompatActivity() {
         val cartItemName3 = findViewById<TextView>(R.id.flower_name3)
         val cartItemPrice3 = findViewById<TextView>(R.id.flower_price3)
         val cartItemImage3 = findViewById<ImageView>(R.id.frame3)
-
-
+        val tvAmount = findViewById<TextView>(R.id.tv_amount) // TextView for total amount
 
         closeButton.setOnClickListener {
             removeItemFromCart(0)
         }
         closeButton2.setOnClickListener {
-            removeItemFromCart(0)
+            removeItemFromCart(1)
         }
         closeButton3.setOnClickListener {
-            removeItemFromCart(0)
+            removeItemFromCart(2)
         }
-
-        cartItemQuantity.text = quantity.toString()
-
-        // Set up the decrease button functionality
-        decreaseButton.setOnClickListener {
-            if (quantity > 1) { // Prevent quantity from going below 1
-                quantity-- // Decrease the quantity
-                cartItemQuantity.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Set up the increase button functionality
-        increaseButton.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3
-                quantity++ // Increase the quantity
-                cartItemQuantity.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Add onClickListener to allow updating the quantity by clicking on the TextView
-        cartItemQuantity.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3 when clicking on the TextView
-                quantity++ // Increase the quantity by 1 when clicked
-                cartItemQuantity.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        cartItemQuantity2.text = quantity.toString()
-
-        // Set up the decrease button functionality
-        decreaseButton2.setOnClickListener {
-            if (quantity > 1) { // Prevent quantity from going below 1
-                quantity-- // Decrease the quantity
-                cartItemQuantity2.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Set up the increase button functionality
-        increaseButton2.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3
-                quantity++ // Increase the quantity
-                cartItemQuantity2.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Add onClickListener to allow updating the quantity by clicking on the TextView
-        cartItemQuantity2.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3 when clicking on the TextView
-                quantity++ // Increase the quantity by 1 when clicked
-                cartItemQuantity2.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        cartItemQuantity3.text = quantity.toString()
-
-        // Set up the decrease button functionality
-        decreaseButton3.setOnClickListener {
-            if (quantity > 1) { // Prevent quantity from going below 1
-                quantity-- // Decrease the quantity
-                cartItemQuantity3.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Set up the increase button functionality
-        increaseButton3.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3
-                quantity++ // Increase the quantity
-                cartItemQuantity3.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-        // Add onClickListener to allow updating the quantity by clicking on the TextView
-        cartItemQuantity3.setOnClickListener {
-            if (quantity < 3) { // Prevent quantity from going above 3 when clicking on the TextView
-                quantity++ // Increase the quantity by 1 when clicked
-                cartItemQuantity3.text = quantity.toString() // Update the displayed quantity
-            }
-        }
-
-
 
         // Load cart items from SharedPreferences
         val sharedPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
@@ -143,41 +63,14 @@ class Activity_Cart : AppCompatActivity() {
 
         if (!cartItemsString.isNullOrEmpty()) {
             val cartItems = cartItemsString.split(",")
-
             // Populate cart item views with data
-            if (cartItems.isNotEmpty()) {
-                val item1 = cartItems[0].split("|")
-                cartItemName1.text = item1[0]
-                cartItemPrice1.text = item1[1]
-                cartItemImage1.setImageResource(item1[2].toInt())
-            } else {
-                cartItemName1.text = ""
-                cartItemPrice1.text = ""
-                cartItemImage1.setImageDrawable(null)
-            }
-
-            if (cartItems.size > 1) {
-                val item2 = cartItems[1].split("|")
-                cartItemName2.text = item2[0]
-                cartItemPrice2.text = item2[1]
-                cartItemImage2.setImageResource(item2[2].toInt())
-            } else {
-                cartItemName2.text = ""
-                cartItemPrice2.text = ""
-                cartItemImage2.setImageDrawable(null)
-            }
-
-            if (cartItems.size > 2) {
-                val item3 = cartItems[2].split("|")
-                cartItemName3.text = item3[0]
-                cartItemPrice3.text = item3[1]
-                cartItemImage3.setImageResource(item3[2].toInt())
-            } else {
-                cartItemName3.text = ""
-                cartItemPrice3.text = ""
-                cartItemImage3.setImageDrawable(null)
-            }
+            loadCartItems(cartItems)
         }
+
+        // Set up quantity change listeners
+        setupQuantityChangeListeners(cartItemQuantity, cartItemPrice1, 0)
+        setupQuantityChangeListeners(cartItemQuantity2, cartItemPrice2, 1)
+        setupQuantityChangeListeners(cartItemQuantity3, cartItemPrice3, 2)
 
         cartIcon.setOnClickListener {
             val intent = Intent(this, Activity_Cart::class.java)
@@ -208,6 +101,45 @@ class Activity_Cart : AppCompatActivity() {
         }
     }
 
+    private fun setupQuantityChangeListeners(quantityTextView: TextView, priceTextView: TextView, index: Int) {
+        val decreaseButton = when (index) {
+            0 -> findViewById<Button>(R.id.btn_decrease)
+            1 -> findViewById<Button>(R.id.btn_decrease2)
+            2 -> findViewById<Button>(R.id.btn_decrease3)
+            else -> null
+        }
+
+        val increaseButton = when (index) {
+            0 -> findViewById<Button>(R.id.btn_increase)
+            1 -> findViewById<Button>(R.id.btn_increase2)
+            2 -> findViewById<Button>(R.id.btn_increase3)
+            else -> null
+        }
+
+        decreaseButton?.setOnClickListener {
+            val currentQuantity = quantityTextView.text.toString().toInt()
+            if (currentQuantity > 1) {
+                val newQuantity = currentQuantity - 1
+                quantityTextView.text = newQuantity.toString()
+                updateTotalAmount(priceTextView.text.toString(), -1) // Decrease total
+            }
+        }
+
+        increaseButton?.setOnClickListener {
+            val currentQuantity = quantityTextView.text.toString().toInt()
+            val newQuantity = currentQuantity + 1
+            quantityTextView.text = newQuantity.toString()
+            updateTotalAmount(priceTextView.text.toString(), 1) // Increase total
+        }
+    }
+
+    private fun updateTotalAmount(priceString: String, quantityChange: Int) {
+        val price = extractPrice(priceString)
+        totalAmount += price * quantityChange
+        val tvAmount = findViewById<TextView>(R.id.tv_amount)
+        tvAmount.text = "₱${String.format("%.2f", totalAmount)}"
+    }
+
     private fun removeItemFromCart(index: Int) {
         val sharedPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
         val cartItemsString = sharedPreferences.getString("cart_items", "")
@@ -215,6 +147,10 @@ class Activity_Cart : AppCompatActivity() {
 
         // Check if there are items in the cart and the index is valid
         if (!cartItems.isNullOrEmpty() && cartItems.size > index) {
+            val itemToRemove = cartItems[index].split("|")
+            if (itemToRemove.size > 1) {
+                totalAmount -= extractPrice(itemToRemove[1]) // subtract price
+            }
             cartItems.removeAt(index) // Remove item at the specified index
         }
 
@@ -235,43 +171,66 @@ class Activity_Cart : AppCompatActivity() {
         val cartItemName3 = findViewById<TextView>(R.id.flower_name3)
         val cartItemPrice3 = findViewById<TextView>(R.id.flower_price3)
         val cartItemImage3 = findViewById<ImageView>(R.id.frame3)
+        val tvAmount = findViewById<TextView>(R.id.tv_amount)
 
-        if (cartItems.isNotEmpty()) {
-            val item1 = cartItems[0].split("|")
-            cartItemName1.text = item1[0]
-            cartItemPrice1.text = item1[1]
-            cartItemImage1.setImageResource(item1[2].toInt())
-        } else {
-            cartItemName1.text = ""
-            cartItemPrice1.text = ""
-            cartItemImage1.setImageDrawable(null)
+        totalAmount = 0.0 // Reset total amount
+
+        try {
+            if (cartItems.isNotEmpty()) {
+                val item1 = cartItems[0].split("|")
+                cartItemName1.text = item1[0]
+                cartItemPrice1.text = item1[1]
+                cartItemImage1.setImageResource(item1[2].toInt())
+                totalAmount += extractPrice(item1[1]) // add price to total
+            } else {
+                cartItemName1.text = ""
+                cartItemPrice1.text = ""
+                cartItemImage1.setImageDrawable(null)
+            }
+
+            if (cartItems.size > 1) {
+                val item2 = cartItems[1].split("|")
+                cartItemName2.text = item2[0]
+                cartItemPrice2.text = item2[1]
+                cartItemImage2.setImageResource(item2[2].toInt())
+                totalAmount += extractPrice(item2[1])
+            } else {
+                cartItemName2.text = ""
+                cartItemPrice2.text = ""
+                cartItemImage2.setImageDrawable(null)
+            }
+
+            if (cartItems.size > 2) {
+                val item3 = cartItems[2].split("|")
+                cartItemName3.text = item3[0]
+                cartItemPrice3.text = item3[1]
+                cartItemImage3.setImageResource(item3[2].toInt())
+                totalAmount += extractPrice(item3[1])
+            } else {
+                cartItemName3.text = ""
+                cartItemPrice3.text = ""
+                cartItemImage3.setImageDrawable(null)
+            }
+
+            // Update the total amount TextView
+            val tvAmount = findViewById<TextView>(R.id.tv_amount)
+            tvAmount.text = "₱${String.format("%.2f", totalAmount)}"
+        } catch (e: Exception) {
+            Log.e("Activity_Cart", "Error loading cart items: ${e.message}")
         }
+    }
 
-        if (cartItems.size > 1) {
-            val item2 = cartItems[1].split("|")
-            cartItemName2.text = item2[0]
-            cartItemPrice2.text = item2[1]
-            cartItemImage2.setImageResource(item2[2].toInt())
-        } else {
-            cartItemName2.text = ""
-            cartItemPrice2.text = ""
-            cartItemImage2.setImageDrawable(null)
-        }
-
-        if (cartItems.size > 2) {
-            val item3 = cartItems[2].split("|")
-            cartItemName3.text = item3[0]
-            cartItemPrice3.text = item3[1]
-            cartItemImage3.setImageResource(item3[2].toInt())
-        } else {
-            cartItemName3.text = ""
-            cartItemPrice3.text = ""
-            cartItemImage3.setImageDrawable(null)
+    private fun extractPrice(priceString: String): Double {
+        return try {
+            priceString.replace("₱", "").trim().toDouble()
+        } catch (e: NumberFormatException) {
+            Log.e("Activity_Cart", "Error parsing price: ${e.message}")
+            0.0 // Return 0.0 if parsing fails
         }
     }
 
     private fun isAddressSet(): Boolean {
-        val sharedPreferences: SharedPreferences = getSharedPreferences("User_Profile", MODE_PRIVATE)
+        val sharedPreferences: SharedPreferences = getSharedPreferences("User  _Profile", MODE_PRIVATE)
         val address = sharedPreferences.getString("address", null)
         return address != null
     }

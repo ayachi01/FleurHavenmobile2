@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Activity_Main : AppCompatActivity() {
@@ -44,15 +45,29 @@ class Activity_Main : AppCompatActivity() {
         }
 
         addToCartBtn.setOnClickListener {
-            addToCart("Rainbow Posies", "₱ 1000", R.drawable.rainbow_posies)
+            addToCartIfAddressSet("Rainbow Posies", "₱ 1000", R.drawable.rainbow_posies)
         }
 
         addToCartBtn2.setOnClickListener {
-            addToCart("Daisy Kiss", "₱ 1000", R.drawable.daisykiss)
+            addToCartIfAddressSet("Daisy Kiss", "₱ 1000", R.drawable.daisykiss)
         }
 
         addToCartBtn3.setOnClickListener {
-            addToCart("Just Because Flowers", "₱ 1000", R.drawable.flower_sample)
+            addToCartIfAddressSet("Just Because Flowers", "₱ 1000", R.drawable.flower_sample)
+        }
+    }
+
+    private fun addToCartIfAddressSet(name: String, price: String, imageResId: Int) {
+        val sharedPreferences = getSharedPreferences("User    Profile", Context.MODE_PRIVATE)
+        val savedAddress = sharedPreferences.getString("address", null)
+
+        if (savedAddress == null) {
+            Toast.makeText(this, "Please set your address in your profile.", Toast.LENGTH_SHORT).show()
+            // Optionally, redirect to the profile activity
+            val intent = Intent(this, Activity_Profile::class.java)
+            startActivity(intent)
+        } else {
+            addToCart(name, price, imageResId)
         }
     }
 
@@ -76,7 +91,7 @@ class Activity_Main : AppCompatActivity() {
         val itemCount = cartItemsString?.split(",")?.filter { it.isNotEmpty() }?.size ?: 0
 
         if (itemCount > 0) {
-            cartCountTextView.text = itemCount.toString() //  Set number
+            cartCountTextView.text = itemCount.toString() // Set number
             cartCountTextView.visibility = TextView.VISIBLE
         } else {
             cartCountTextView.visibility = TextView.GONE
