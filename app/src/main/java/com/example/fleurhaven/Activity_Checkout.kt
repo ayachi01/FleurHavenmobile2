@@ -23,8 +23,14 @@ class Activity_Checkout : AppCompatActivity() {
             return
         }
 
+        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
+
+        homeIcon.setOnClickListener {
+            val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
 
         cartIcon.setOnClickListener {
             startActivity(Intent(this, Activity_Cart::class.java))

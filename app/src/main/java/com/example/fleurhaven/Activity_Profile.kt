@@ -29,6 +29,7 @@ class Activity_Profile : AppCompatActivity() {
 
         val profilePref = getSharedPreferences("user_data", MODE_PRIVATE)
         val userEmail = profilePref.getString("email", null)
+        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val editAddress = findViewById<ImageButton>(R.id.editaddress_icon)
         addressTextView = findViewById(R.id.addresstxt)
@@ -41,6 +42,11 @@ class Activity_Profile : AppCompatActivity() {
 
         findViewById<TextView>(R.id.emailtxt).text = userEmail
         loadAddress()
+
+        homeIcon.setOnClickListener {
+            val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
 
         cartIcon.setOnClickListener {
             val savedAddress = sharedPreferences.getString("address", null)

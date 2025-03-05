@@ -19,6 +19,7 @@ class Activity_Cart : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
+        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
         val checkout = findViewById<Button>(R.id.checkoutBtn)
@@ -92,6 +93,11 @@ class Activity_Cart : AppCompatActivity() {
         setupQuantityChangeListeners(cartItemQuantity4, cartItemPrice4, 3)
         setupQuantityChangeListeners(cartItemQuantity5, cartItemPrice5, 4)
         setupQuantityChangeListeners(cartItemQuantity6, cartItemPrice6, 5)
+
+        homeIcon.setOnClickListener {
+            val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
 
 
         cartIcon.setOnClickListener {

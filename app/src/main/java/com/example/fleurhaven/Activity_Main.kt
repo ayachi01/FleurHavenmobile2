@@ -16,6 +16,7 @@ class Activity_Main : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
         val addToCartBtn = findViewById<Button>(R.id.button1) // Rainbow Posies
@@ -32,6 +33,11 @@ class Activity_Main : AppCompatActivity() {
         cartCountTextView = findViewById(R.id.cart_count)
 
         updateCartCount()
+
+        homeIcon.setOnClickListener {
+            val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
 
         cartIcon.setOnClickListener {
             val intent = Intent(this, Activity_Cart::class.java)
