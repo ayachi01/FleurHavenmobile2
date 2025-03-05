@@ -31,25 +31,15 @@ class Activity_Cart : AppCompatActivity() {
         val closeButton5 = findViewById<ImageButton>(R.id.btn_close5)
         val closeButton6 = findViewById<ImageButton>(R.id.btn_close6)
         val cartItemQuantity = findViewById<TextView>(R.id.tv_quantity)
-        val decreaseButton = findViewById<Button>(R.id.btn_decrease)
-        val increaseButton = findViewById<Button>(R.id.btn_increase)
         val cartItemQuantity2 = findViewById<TextView>(R.id.tv_quantity2)
-        val decreaseButton2 = findViewById<Button>(R.id.btn_decrease2)
-        val increaseButton2 = findViewById<Button>(R.id.btn_increase2)
         val cartItemQuantity3 = findViewById<TextView>(R.id.tv_quantity3)
-        val decreaseButton3 = findViewById<Button>(R.id.btn_decrease3)
-        val increaseButton3 = findViewById<Button>(R.id.btn_increase3)
         val cartItemQuantity4 = findViewById<TextView>(R.id.tv_quantity4)
 
-        val cartItemName1 = findViewById<TextView>(R.id.flower_name)
+
         val cartItemPrice1 = findViewById<TextView>(R.id.flower_price)
-        val cartItemImage1 = findViewById<ImageView>(R.id.frame1)
-        val cartItemName2 = findViewById<TextView>(R.id.flower_name2)
+
         val cartItemPrice2 = findViewById<TextView>(R.id.flower_price2)
-        val cartItemImage2 = findViewById<ImageView>(R.id.frame2)
-        val cartItemName3 = findViewById<TextView>(R.id.flower_name3)
         val cartItemPrice3 = findViewById<TextView>(R.id.flower_price3)
-        val cartItemImage3 = findViewById<ImageView>(R.id.frame3)
         val cartItemPrice4 = findViewById<TextView>(R.id.flower_price4)
         val cartItemQuantity5 = findViewById<TextView>(R.id.tv_quantity5)
         val cartItemPrice5 = findViewById<TextView>(R.id.flower_price5)
@@ -123,10 +113,15 @@ class Activity_Cart : AppCompatActivity() {
                 val intent = Intent(this, Activity_Profile::class.java)
                 startActivity(intent)
             } else {
+                val sharedPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
+                val cartItemsString = sharedPreferences.getString("cart_items", "")
+
                 val intent = Intent(this, Activity_Checkout::class.java)
+                intent.putExtra("cart_items", cartItemsString) // Pass cart items to checkout
                 startActivity(intent)
             }
         }
+
     }
 
     private fun setupQuantityChangeListeners(quantityTextView: TextView, priceTextView: TextView, index: Int) {

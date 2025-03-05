@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Activity_Main : AppCompatActivity() {
@@ -30,6 +31,13 @@ class Activity_Main : AppCompatActivity() {
         val addToCartBtn9 = findViewById<Button>(R.id.button9) // Asteroid Destroyer
         val addToCartBtn10 = findViewById<Button>(R.id.button10) // Lilies Bouquet
         val addToCartBtn11 = findViewById<Button>(R.id.button11) // Valentines Bouquet
+        val addToCartBtn12 = findViewById<Button>(R.id.button12) // White Roses Bouquet
+        val addToCartBtn13 = findViewById<Button>(R.id.button13) // True Love Bouquet
+        val addToCartBtn14 = findViewById<Button>(R.id.button14) // White Tulips
+        val addToCartBtn15 = findViewById<Button>(R.id.button15) // White Daisies
+        val addToCartBtn16 = findViewById<Button>(R.id.button16) // Orchids Bouquet
+        val addToCartBtn17 = findViewById<Button>(R.id.button17) // Assorted Flowers
+        val addToCartBtn18 = findViewById<Button>(R.id.button18) // Eternal Box Flowers
         cartCountTextView = findViewById(R.id.cart_count)
 
         updateCartCount()
@@ -92,7 +100,28 @@ class Activity_Main : AppCompatActivity() {
         addToCartBtn11.setOnClickListener {
             addToCart("Valentines Bouquet", "₱ 1000", R.drawable.valentine)
         }
+        addToCartBtn12.setOnClickListener {
+            addToCart("White Roses Bouquet", "₱ 1000", R.drawable.white_roses_bouquet)
+        }
+        addToCartBtn13.setOnClickListener {
+            addToCart("True Love Bouquet", "₱ 1000", R.drawable.true_love)
+        }
+        addToCartBtn14.setOnClickListener {
+            addToCart("White Tulips", "₱ 1000", R.drawable.white_tulips)
+        }
+        addToCartBtn15.setOnClickListener {
+            addToCart("White Daisies", "₱ 1000", R.drawable.white_daisies)
+        }
+        addToCartBtn16.setOnClickListener {
+            addToCart("Orchids Bouquet", "₱ 1000", R.drawable.boquet_of_orchids)
+            }
+        addToCartBtn17.setOnClickListener {
+            addToCart("Assorted Flowers", "₱ 1000", R.drawable.assorted_flowers)
+            }
+        addToCartBtn18.setOnClickListener {
+            addToCart("Eternal Box Flowers", "₱ 1000", R.drawable.eternal_heart_box)
 
+        }
 
 
     }
@@ -108,7 +137,10 @@ class Activity_Main : AppCompatActivity() {
         editor.putString("cart_items", updatedCart)
         editor.apply()
 
+        Toast.makeText(this, "$name added to cart", Toast.LENGTH_SHORT).show()
+
         updateCartCount()
+
     }
 
     private fun updateCartCount() {

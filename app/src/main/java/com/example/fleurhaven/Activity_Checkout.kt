@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fleurhaven.Activity_Login
 
 class Activity_Checkout : AppCompatActivity() {
 
@@ -23,13 +22,20 @@ class Activity_Checkout : AppCompatActivity() {
             return
         }
 
+        // Retrieve cart data from Intent
+        val cartItemsString = intent.getStringExtra("cart_items")
+        if (!cartItemsString.isNullOrEmpty()) {
+            val cartItems = cartItemsString.split(",")
+            // Display cart items in checkout UI
+            loadCheckoutItems(cartItems)
+        }
+
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
 
         homeIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Main::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Activity_Main::class.java))
         }
 
         cartIcon.setOnClickListener {
@@ -44,5 +50,9 @@ class Activity_Checkout : AppCompatActivity() {
             }
             startActivity(intent)
         }
+    }
+
+    private fun loadCheckoutItems(cartItems: List<String>) {
+        // Implement logic to display cart items in checkout page
     }
 }
