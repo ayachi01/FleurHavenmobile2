@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Activity_Main : AppCompatActivity() {
@@ -22,6 +21,14 @@ class Activity_Main : AppCompatActivity() {
         val addToCartBtn = findViewById<Button>(R.id.button1) // Rainbow Posies
         val addToCartBtn2 = findViewById<Button>(R.id.button2) // Daisy Kiss
         val addToCartBtn3 = findViewById<Button>(R.id.button3) // Just Because Flowers
+        val addToCartBtn4 = findViewById<Button>(R.id.button4) // Pixie Posy
+        val addToCartBtn5 = findViewById<Button>(R.id.button5) // Blush Bouquet
+        val addToCartBtn6 = findViewById<Button>(R.id.button6) // Dangwa
+        val addToCartBtn7 = findViewById<Button>(R.id.button7) // 11 Pink Bouquet
+        val addToCartBtn8 = findViewById<Button>(R.id.button8) // Carnation
+        val addToCartBtn9 = findViewById<Button>(R.id.button9) // Asteroid Destroyer
+        val addToCartBtn10 = findViewById<Button>(R.id.button10) // Lilies Bouquet
+        val addToCartBtn11 = findViewById<Button>(R.id.button11) // Valentines Bouquet
         cartCountTextView = findViewById(R.id.cart_count)
 
         updateCartCount()
@@ -45,30 +52,43 @@ class Activity_Main : AppCompatActivity() {
         }
 
         addToCartBtn.setOnClickListener {
-            addToCartIfAddressSet("Rainbow Posies", "₱ 1000", R.drawable.rainbow_posies)
+            addToCart("Rainbow Posies", "₱ 1000", R.drawable.rainbow_posies)
         }
 
         addToCartBtn2.setOnClickListener {
-            addToCartIfAddressSet("Daisy Kiss", "₱ 1000", R.drawable.daisykiss)
+            addToCart("Daisy Kiss", "₱ 1000", R.drawable.daisykiss)
         }
 
         addToCartBtn3.setOnClickListener {
-            addToCartIfAddressSet("Just Because Flowers", "₱ 1000", R.drawable.flower_sample)
+            addToCart("Just Because Flowers", "₱ 1000", R.drawable.flower_sample)
         }
-    }
-
-    private fun addToCartIfAddressSet(name: String, price: String, imageResId: Int) {
-        val sharedPreferences = getSharedPreferences("User    Profile", Context.MODE_PRIVATE)
-        val savedAddress = sharedPreferences.getString("address", null)
-
-        if (savedAddress == null) {
-            Toast.makeText(this, "Please set your address in your profile.", Toast.LENGTH_SHORT).show()
-            // Optionally, redirect to the profile activity
-            val intent = Intent(this, Activity_Profile::class.java)
-            startActivity(intent)
-        } else {
-            addToCart(name, price, imageResId)
+        addToCartBtn4.setOnClickListener {
+            addToCart("Pixie Posy Bouquet", "₱ 1000", R.drawable.pixie_posy)
         }
+        addToCartBtn5.setOnClickListener {
+            addToCart("Blush Bouquet", "₱ 1000", R.drawable.blush_bouquet)
+        }
+        addToCartBtn6.setOnClickListener {
+            addToCart("Dangwa", "₱ 1000", R.drawable.dangwa)
+        }
+        addToCartBtn7.setOnClickListener {
+            addToCart("11 Pink Bouquet", "₱ 1000", R.drawable.elevenpink)
+        }
+        addToCartBtn8.setOnClickListener {
+            addToCart("Carnation", "₱ 1000", R.drawable.carnation)
+        }
+        addToCartBtn9.setOnClickListener {
+            addToCart("Asteroid Destroyer", "₱ 1000", R.drawable.asteroid_destroyer)
+        }
+        addToCartBtn10.setOnClickListener {
+            addToCart("Lilies Bouquet", "₱ 1000", R.drawable.lilies_bouquet)
+        }
+        addToCartBtn11.setOnClickListener {
+            addToCart("Valentines Bouquet", "₱ 1000", R.drawable.valentine)
+        }
+
+
+
     }
 
     private fun addToCart(name: String, price: String, imageResId: Int) {
@@ -91,7 +111,7 @@ class Activity_Main : AppCompatActivity() {
         val itemCount = cartItemsString?.split(",")?.filter { it.isNotEmpty() }?.size ?: 0
 
         if (itemCount > 0) {
-            cartCountTextView.text = itemCount.toString() // Set number
+            cartCountTextView.text = itemCount.toString() //  Set number
             cartCountTextView.visibility = TextView.VISIBLE
         } else {
             cartCountTextView.visibility = TextView.GONE
