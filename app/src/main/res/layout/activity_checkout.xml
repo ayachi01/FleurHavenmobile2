@@ -71,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:orientation="horizontal">
 
 
@@ -79,6 +79,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
@@ -88,6 +89,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
@@ -97,6 +99,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
@@ -106,6 +109,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
                 android:background="#808080"
                 android:elevation="10dp"
                 android:src="@drawable/checkout_background" />
@@ -113,6 +117,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
@@ -121,6 +126,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
@@ -129,11 +135,11 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:src="@drawable/checkout_background"
                 android:background="#808080"
                 android:layout_marginEnd="10dp"
                 android:elevation="10dp"/>
-
 
 
 
@@ -150,16 +156,15 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/tv_items_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Items: 1"
-            android:layout_margin="10dp"
-            android:textSize="16sp"
             android:fontFamily="@font/albertsans"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:text="Items: 1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <View
             android:layout_width="0dp"
@@ -172,6 +177,7 @@
             android:layout_height="wrap_content"
             android:text="Total: 1,000"
             android:paddingEnd="5dp"
+            android:layout_marginEnd="20dp"
             android:textSize="16sp"
             android:textStyle="bold"
             android:fontFamily="@font/albertsans"
@@ -181,98 +187,150 @@
     <!-- Horizontal Line -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:layout_height="5dp"
+        android:background="#FFEBEC"
+
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
-    <!-- Order Option -->
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Order Option"
-        android:layout_margin="10dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/albertsans"
-        android:textColor="@android:color/black"/>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp">
-
-        <RadioButton
-            android:id="@+id/rb_instore_pickup"
-            android:layout_width="360dp"
+        <!-- Order Option -->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/albertsans"
+            android:text="Order Option"
+            android:layout_marginStart="18dp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            android:text="In-store Pickup"
-            android:textColor="@android:color/black"
-            android:background="@drawable/border_checkout"
-            android:padding="12dp"
-            android:layout_marginBottom="4dp"/>
-
-        <RadioButton
-            android:id="@+id/rb_delivery"
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
             android:fontFamily="@font/albertsans"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:text="Deliver"
-            android:textColor="@android:color/black"
-            android:background="@drawable/border_checkout"
-            android:padding="12dp"
-            android:layout_marginTop="10dp"/>
-    </RadioGroup>
+            android:textColor="@android:color/black"/>
 
-    <!-- Payment Method -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/albertsans"
-        android:text="Select Payment Method"
-        android:layout_margin="10dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp">
-
-        <RadioButton
-            android:id="@+id/rb_e_wallet"
-            android:layout_width="360dp"
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="E-Wallet"
-            android:textColor="@android:color/black"
-            android:background="@drawable/border_checkout"
-            android:padding="12dp"
-            android:layout_marginBottom="4dp"/>
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
 
-        <RadioButton
-            android:id="@+id/rb_cash_on_delivery"
-            android:layout_width="360dp"
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="In-store Pickup"
+                    android:fontFamily="@font/albertsans"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <RadioButton
+                    android:id="@+id/rb_instore_pickup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Deliver"
+                    android:fontFamily="@font/albertsans"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <RadioButton
+                    android:id="@+id/rb_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RadioGroup>
+
+        <!-- Payment Method -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+           android:layout_marginStart="18dp"
             android:fontFamily="@font/albertsans"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:text="Cash on Delivery\nPay when you receive (for Delivery Only)"
+            android:text="Select Payment Method"
             android:textColor="@android:color/black"
-            android:background="@drawable/border_checkout"
-            android:padding="12dp"
-            android:layout_marginTop="10dp"/>
-    </RadioGroup>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="E-Wallet"
+                    android:fontFamily="@font/albertsans"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <RadioButton
+                    android:id="@+id/rb_e_wallet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cash on Delivery\nPay when you receive (for Delivery Only)"
+                    android:fontFamily="@font/albertsans"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <RadioButton
+                    android:id="@+id/rb_cash_on_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </RadioGroup>
 
         <!-- Horizontal Line -->
         <View
@@ -344,12 +402,12 @@
         <!-- Order Button -->
     <Button
         android:id="@+id/btn_place_order"
-        android:layout_width="195dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:layout_gravity="center"
-        android:backgroundTint="#FBDADE"
+        android:backgroundTint="#FFEBEC"
         android:fontFamily="@font/albertsans"
         android:text="PLACE ORDER NOW"
         android:textColor="@android:color/black"
@@ -365,7 +423,7 @@
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#FDE9EC"
+        android:background="#FFDFE1"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"

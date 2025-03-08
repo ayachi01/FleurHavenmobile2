@@ -1,8 +1,12 @@
 package com.example.fleurhaven
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 
@@ -26,13 +30,13 @@ class Activity_Checkout : AppCompatActivity() {
         val cartItemsString = intent.getStringExtra("cart_items")
         if (!cartItemsString.isNullOrEmpty()) {
             val cartItems = cartItemsString.split(",")
-            // Display cart items in checkout UI
-            loadCheckoutItems(cartItems)
+            loadCheckoutItems(cartItems) // Display cart items
         }
 
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
+        val btnPlaceOrder = findViewById<Button>(R.id.btn_place_order) // Add your checkout button ID
 
         homeIcon.setOnClickListener {
             startActivity(Intent(this, Activity_Main::class.java))
@@ -50,9 +54,28 @@ class Activity_Checkout : AppCompatActivity() {
             }
             startActivity(intent)
         }
+
+        // Show Order Placed Dialog when placing an order
+        btnPlaceOrder.setOnClickListener {
+            showOrderPlacedDialog()
+        }
     }
 
     private fun loadCheckoutItems(cartItems: List<String>) {
         // Implement logic to display cart items in checkout page
+    }
+
+    private fun showOrderPlacedDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.activity_order_placed)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnDone = dialog.findViewById<Button>(R.id.btn_done)
+        btnDone.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, Activity_Main::class.java)) // Redirect to Home after clicking Done
+        }
+
+        dialog.show()
     }
 }
