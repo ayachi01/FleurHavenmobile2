@@ -31,6 +31,7 @@ class Activity_Profile : AppCompatActivity() {
         val userEmail = profilePref.getString("email", null)
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
+        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
         val editAddress = findViewById<ImageButton>(R.id.editaddress_icon)
         addressTextView = findViewById(R.id.addresstxt)
 
@@ -45,6 +46,11 @@ class Activity_Profile : AppCompatActivity() {
 
         homeIcon.setOnClickListener {
             val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
+
+        orderIcon.setOnClickListener {
+            val intent = Intent(this, Activity_OrderHistory::class.java)
             startActivity(intent)
         }
 

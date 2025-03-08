@@ -36,10 +36,16 @@ class Activity_Checkout : AppCompatActivity() {
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
+        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
         val btnPlaceOrder = findViewById<Button>(R.id.btn_place_order) // Add your checkout button ID
 
         homeIcon.setOnClickListener {
             startActivity(Intent(this, Activity_Main::class.java))
+        }
+
+        orderIcon.setOnClickListener {
+            val intent = Intent(this, Activity_OrderHistory::class.java)
+            startActivity(intent)
         }
 
         cartIcon.setOnClickListener {

@@ -22,8 +22,9 @@ class Activity_Cart : AppCompatActivity() {
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
-        val checkout = findViewById<Button>(R.id.checkoutBtn)
+        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
 
+        val checkout = findViewById<Button>(R.id.checkoutBtn)
         val closeButton = findViewById<ImageButton>(R.id.btn_close)
         val closeButton2 = findViewById<ImageButton>(R.id.btn_close2)
         val closeButton3 = findViewById<ImageButton>(R.id.btn_close3)
@@ -86,6 +87,11 @@ class Activity_Cart : AppCompatActivity() {
 
         homeIcon.setOnClickListener {
             val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
+
+        orderIcon.setOnClickListener {
+            val intent = Intent(this, Activity_OrderHistory::class.java)
             startActivity(intent)
         }
 

@@ -29,6 +29,7 @@
         <activity android:name=".Activity_Profile" android:exported="true"/>
         <activity android:name=".Activity_Checkout" android:exported="true"/>
         <activity android:name=".Activity_Signup" android:exported="true"/>
+        <activity android:name=".Activity_OrderHistory" android:exported="true"/>
 
     </application>
 

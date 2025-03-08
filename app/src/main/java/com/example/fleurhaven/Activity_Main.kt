@@ -20,6 +20,8 @@ class Activity_Main : AppCompatActivity() {
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
+        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
+
         val addToCartBtn = findViewById<Button>(R.id.button1) // Rainbow Posies
         val addToCartBtn2 = findViewById<Button>(R.id.button2) // Daisy Kiss
         val addToCartBtn3 = findViewById<Button>(R.id.button3) // Just Because Flowers
@@ -44,6 +46,11 @@ class Activity_Main : AppCompatActivity() {
 
         homeIcon.setOnClickListener {
             val intent = Intent(this, Activity_Main::class.java)
+            startActivity(intent)
+        }
+
+        orderIcon.setOnClickListener {
+            val intent = Intent(this, Activity_OrderHistory::class.java)
             startActivity(intent)
         }
 

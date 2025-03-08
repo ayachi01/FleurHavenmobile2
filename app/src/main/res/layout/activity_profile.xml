@@ -171,7 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:background="#FDE9EC"
+        android:background="#FFDFE1"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -179,7 +179,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="20dp"
         android:paddingBottom="5dp"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <!-- Home Icon -->
         <ImageButton
@@ -190,6 +190,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/home"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/home_icon" />
 
         <!-- FrameLayout containing Cart Icon and Badge -->
@@ -239,6 +240,24 @@
             android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/person_icon" />
+
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <!-- Profile Icon -->
+            <ImageButton
+                android:id="@+id/order_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/profile"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:background="@drawable/order_icon" />
+        </FrameLayout>
 
     </LinearLayout>
 </RelativeLayout>
