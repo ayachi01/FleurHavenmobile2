@@ -21,3 +21,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "FleurHaven"
 include(":app")
+
+// Force Java 17 for all Gradle tasks
+gradle.allprojects {
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+    }
+}
+
