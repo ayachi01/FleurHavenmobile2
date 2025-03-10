@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_Main">
+
+    <!-- Banner Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#FDE9EC"
+        app:cardCornerRadius="7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/albertsans"
+                android:gravity="center"
+                android:text="Catalog"
+                android:textColor="#000"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Recommended Section -->
+    <LinearLayout
+        android:id="@+id/recommended_section"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/banner"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/recommended"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="@string/recommended"
+            android:fontFamily="@font/albertsans"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- RecyclerView for Flowers -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/flowerRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/recommended_section"
+        android:layout_above="@id/bottom_nav"
+        android:padding="8dp"/>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FDE9EC"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
+        android:weightSum="4">
+
+        <!-- Home Icon -->
+        <ImageButton
+            android:id="@+id/home_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/home"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/home_icon" />
+
+        <!-- FrameLayout containing Cart Icon and Badge -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <!-- Cart Icon -->
+            <ImageButton
+                android:id="@+id/cart_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/cart"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/shopping_cart" />
+
+            <!-- Cart Count Badge -->
+            <TextView
+                android:id="@+id/cart_count"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/badge_background"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_gravity="top|center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"/>
+        </FrameLayout>
+
+        <!-- Profile Icon -->
+        <ImageButton
+            android:id="@+id/profile_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/profile"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/person_icon" />
+
+    </LinearLayout>
+</RelativeLayout>

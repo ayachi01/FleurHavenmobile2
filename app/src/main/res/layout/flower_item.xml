@@ -1,0 +1,58 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="7dp">
+
+    <RelativeLayout
+        android:layout_width="185dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center">
+
+        <!-- Flower Image -->
+        <ImageView
+            android:id="@+id/flowerImage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="fitCenter"/>
+
+        <!-- Flower Details -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#FCF4F5"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/flowerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/flowerPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#000"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/addToCart"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:textSize="11sp"
+                android:text="@string/addtocart"
+                android:background="@drawable/add_to_cart_button"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

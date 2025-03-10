@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="282dp"
+    android:layout_height="241dp"
+    android:orientation="vertical"
+
+    android:background="@drawable/dialog_background"
+    android:gravity="center"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tv_order_placed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Order Placed"
+        android:fontFamily="@font/albertsans"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_thanku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Thank you for purchasing!"
+        android:fontFamily="@font/albertsans"
+        android:textSize="18dp"
+        android:textColor="@android:color/black"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="192dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFDFE1"
+        android:text="Done"
+        android:textSize="18dp"/>
+</LinearLayout>
