@@ -1,6 +1,6 @@
 package com.example.fleurhaven.api
 
-import ApiService
+import com.example.fleurhaven.api.ApiService
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

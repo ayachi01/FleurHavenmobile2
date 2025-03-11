@@ -3,62 +3,96 @@ package com.example.fleurhaven
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fleurhaven.adapters.CartAdapter
+import com.example.fleurhaven.api.ApiClient
+import com.example.fleurhaven.api.ApiService
 import com.example.fleurhaven.models.CartItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Activity_Cart : AppCompatActivity() {
 
     private lateinit var cartItems: MutableList<CartItem>
     private lateinit var cartAdapter: CartAdapter
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        // Retrieve cart items from the intent
-        cartItems = intent.getSerializableExtra("cart_items") as? MutableList<CartItem> ?: mutableListOf()
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        userId = sharedPreferences.getInt("user_id", -1)
 
-        // Set up RecyclerView
+        if (userId == -1) {
+            Toast.makeText(this, "Please log in to view your cart.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        cartItems = mutableListOf()
+
         val recyclerView: RecyclerView = findViewById(R.id.cart_recyclerview)
-        cartAdapter = CartAdapter(this, cartItems)
+        cartAdapter = CartAdapter(this, cartItems, userId) {
+            updateCartSummary()
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = cartAdapter
 
-        // Handle cart item count
+        fetchCartItems()
+
+        setupNavigationBar()
+    }
+
+    private fun fetchCartItems() {
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val call = apiService.getCartItems(userId)
+
+        call.enqueue(object : Callback<List<CartItem>> {
+            override fun onResponse(call: Call<List<CartItem>>, response: Response<List<CartItem>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    cartItems.clear()
+                    cartItems.addAll(response.body()!!)
+                    cartAdapter.notifyDataSetChanged()
+                    updateCartSummary()
+                } else {
+                    Toast.makeText(this@Activity_Cart, "Failed to load cart items.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<CartItem>>, t: Throwable) {
+                Toast.makeText(this@Activity_Cart, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateCartSummary() {
         val cartCountTextView: TextView = findViewById(R.id.cart_count)
         cartCountTextView.text = cartItems.size.toString()
         cartCountTextView.visibility = if (cartItems.isNotEmpty()) View.VISIBLE else View.GONE
 
-        // Handle bottom bar total amount
         val totalAmountTextView: TextView = findViewById(R.id.tv_amount)
-        val totalAmount = cartItems.sumOf { it.price * it.quantity } // Sum of total price for all items
-        totalAmountTextView.text = "₱${totalAmount}"
+        val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
+        totalAmountTextView.text = "₱${"%.2f".format(totalAmount)}"
+    }
 
-        // Bottom Navigation Bar Logic
-        val homeIcon: ImageButton = findViewById(R.id.home_icon)
-        homeIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Main::class.java)
-            startActivity(intent)
+    private fun setupNavigationBar() {
+        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Main::class.java))
         }
 
-        val cartIcon: ImageButton = findViewById(R.id.cart_icon)
-        cartIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Cart::class.java)
-            intent.putExtra("cart_items", ArrayList(cartItems))  // Pass updated cart items back
-            startActivity(intent)
+        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Cart::class.java))
         }
 
-        val profileIcon: ImageButton = findViewById(R.id.profile_icon)
-        profileIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Profile::class.java)
-            startActivity(intent)
+        findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Profile::class.java))
         }
     }
 }
