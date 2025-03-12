@@ -154,7 +154,6 @@
         </LinearLayout>
     </ScrollView>
 
-
     <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -173,8 +172,8 @@
         <!-- Home Icon -->
         <ImageButton
             android:id="@+id/home_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/home"
@@ -192,14 +191,14 @@
             <!-- Cart Icon -->
             <ImageButton
                 android:id="@+id/cart_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/cart"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/shopping_cart" />
+                app:srcCompat="@drawable/cart" />
 
             <!-- Cart Count Badge -->
             <TextView
@@ -221,14 +220,14 @@
         <!-- Profile Icon -->
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/person_icon" />
+            app:srcCompat="@drawable/person" />
 
         <FrameLayout
             android:layout_width="40dp"
@@ -240,12 +239,12 @@
             <ImageButton
                 android:id="@+id/order_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:contentDescription="@string/profile"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                android:background="@drawable/order_icon" />
+                android:background="@drawable/orders" />
         </FrameLayout>
 
     </LinearLayout>

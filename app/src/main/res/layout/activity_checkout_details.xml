@@ -8,34 +8,33 @@
     tools:context=".Activity_Checkout_Details">
 
 
-    <!-- Checkout -->
-    <TextView
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:id="@+id/tv_checkout_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Checkout"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/albertsans"
-        android:textColor="@android:color/black"
-        android:layout_gravity="center_horizontal"/>
-
-    <!-- Horizontal Line -->
-    <View
-        android:padding="10dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="25dp"
-        android:paddingBottom="5dp"
-        android:weightSum="4"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#FDE9EC"
+        app:cardCornerRadius="7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/albertsans"
+                android:gravity="center"
+                android:text="Checkout"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 
@@ -285,8 +284,8 @@
         <!-- Home Icon -->
         <ImageButton
             android:id="@+id/home_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/home"
@@ -304,14 +303,14 @@
             <!-- Cart Icon -->
             <ImageButton
                 android:id="@+id/cart_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/cart"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/shopping_cart" />
+                app:srcCompat="@drawable/cart" />
 
             <!-- Cart Count Badge -->
             <TextView
@@ -333,14 +332,14 @@
         <!-- Profile Icon -->
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/person_icon" />
+            app:srcCompat="@drawable/person" />
 
         <FrameLayout
             android:layout_width="40dp"
@@ -352,12 +351,12 @@
             <ImageButton
                 android:id="@+id/order_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:contentDescription="@string/profile"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                android:background="@drawable/order_icon" />
+                android:background="@drawable/orders" />
         </FrameLayout>
 
     </LinearLayout>
