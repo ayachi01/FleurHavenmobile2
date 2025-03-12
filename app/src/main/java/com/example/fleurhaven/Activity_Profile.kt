@@ -34,6 +34,7 @@ class Activity_Profile : AppCompatActivity() {
         val orderIcon = findViewById<ImageButton>(R.id.order_icon)
         val editAddress = findViewById<ImageButton>(R.id.editaddress_icon)
         addressTextView = findViewById(R.id.addresstxt)
+        val logoutButton: Button = findViewById(R.id.logout_button)
 
         if (userEmail == null) {
             startActivity(Intent(this, Activity_Login::class.java))
@@ -66,6 +67,24 @@ class Activity_Profile : AppCompatActivity() {
         editAddress.setOnClickListener {
             showSetAddressDialog()
         }
+
+        logoutButton.setOnClickListener {
+            logoutUser()
+        }
+    }
+
+    private fun logoutUser() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        val profilePref = getSharedPreferences("user_data", MODE_PRIVATE).edit()
+        profilePref.clear()
+        profilePref.apply()
+
+        Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, Activity_Login::class.java))
+        finish()
     }
 
     private fun showSetAddressDialog() {

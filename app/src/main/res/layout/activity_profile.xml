@@ -154,8 +154,22 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- LOGOUT BUTTON -->
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:backgroundTint="@color/red"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_navigation_bar"
+        android:layout_marginBottom="10dp"/>
+
     <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
+        android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
