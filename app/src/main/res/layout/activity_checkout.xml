@@ -194,6 +194,69 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
+        <!-- Personal Details -->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Details"
+            android:layout_marginStart="18dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/albertsans"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/et_fn"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
+            android:text="First Name"
+            android:background="@drawable/border_checkout"
+            android:padding="12dp"
+            android:layout_marginBottom="4dp">
+        </EditText>
+
+        <EditText
+            android:id="@+id/et_ln"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
+            android:text="Last Name"
+            android:background="@drawable/border_checkout"
+            android:padding="12dp"
+            android:layout_marginBottom="4dp">
+        </EditText>
+
+        <!-- Address -->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:layout_marginStart="18dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/albertsans"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
+            android:text="Address"
+            android:background="@drawable/border_checkout"
+            android:padding="12dp"
+            android:layout_marginBottom="4dp">
+        </EditText>
+
         <!-- Order Option -->
         <TextView
             android:layout_marginTop="10dp"
