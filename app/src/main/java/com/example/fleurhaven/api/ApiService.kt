@@ -6,11 +6,12 @@ import com.example.fleurhaven.models.ApiResponse
 import com.example.fleurhaven.models.CartItem
 import com.example.fleurhaven.models.CartRequest
 import com.example.fleurhaven.models.Flower
+import com.example.fleurhaven.models.RemoveCartItemRequest
 import com.example.fleurhaven.models.UpdateAddressRequest
+import com.example.fleurhaven.models.UpdateCartItemRequest
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -37,7 +38,9 @@ interface ApiService {
     @GET("get_cart_items.php")
     fun getCartItems(@Query("user_id") userId: Int): Call<List<CartItem>>
 
-    @Headers("Content-Type: application/json")
+    @POST("update_cart_item.php")
+    fun updateCartItem(@Body request: UpdateCartItemRequest): Call<ResponseBody>
+
     @POST("remove_cart_item.php")
-    fun removeCartItem(@Body requestBody: Map<String, Any>): Call<ApiResponse>
+    fun removeCartItem(@Body request: RemoveCartItemRequest): Call<ApiResponse>
 }

@@ -15,8 +15,11 @@ import com.bumptech.glide.Glide
 import com.example.fleurhaven.R
 import com.example.fleurhaven.api.ApiClient
 import com.example.fleurhaven.api.ApiService
-import com.example.fleurhaven.models.ApiResponse
+import com.example.fleurhaven.models.RemoveCartItemRequest
+import com.example.fleurhaven.models.UpdateCartItemRequest
 import com.example.fleurhaven.models.CartItem
+import com.example.fleurhaven.models.ApiResponse
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,65 +48,85 @@ class CartAdapter(
             .into(holder.productImage)
 
         holder.btnIncrease.setOnClickListener {
-            cartItems[position] = cartItem.copy(quantity = cartItem.quantity + 1)
-            holder.productQuantity.text = cartItems[position].quantity.toString()
-            onCartUpdated?.invoke()
-            notifyItemChanged(position)
+            val newQuantity = cartItem.quantity + 1
+            updateCartItemQuantity(cartItem, position, newQuantity, holder)
         }
 
         holder.btnDecrease.setOnClickListener {
-            if (cartItem.quantity > 1) {
-                cartItems[position] = cartItem.copy(quantity = cartItem.quantity - 1)
-                holder.productQuantity.text = cartItems[position].quantity.toString()
-                onCartUpdated?.invoke()
-                notifyItemChanged(position)
+            val newQuantity = cartItem.quantity - 1
+            if (newQuantity > 0) {
+                updateCartItemQuantity(cartItem, position, newQuantity, holder)
+            } else {
+                removeCartItem(cartItem, position, holder)
             }
         }
 
         holder.btnClose.setOnClickListener {
-            removeCartItem(cartItem, position)
+            holder.btnClose.isEnabled = false
+            removeCartItem(cartItem, position, holder)
         }
     }
 
     override fun getItemCount(): Int = cartItems.size
 
-    private fun removeCartItem(cartItem: CartItem, position: Int) {
+    private fun updateCartItemQuantity(cartItem: CartItem, position: Int, newQuantity: Int, holder: CartViewHolder) {
+        if (newQuantity <= 0 || position !in cartItems.indices) return
+
         val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val request = UpdateCartItemRequest(userId = userId, id = cartItem.id, quantity = newQuantity)
 
-        val requestBody = mapOf(
-            "user_id" to userId,
-            "cart_item_id" to cartItem.id,
-            "flower_id" to cartItem.flower_id  // Add this line
-        )
-
-        Log.d("CartAdapter", "Sending Request Body: $requestBody")
-
-        val call = apiService.removeCartItem(requestBody)
-
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
-                    cartItems.removeAt(position)
-                    notifyItemRemoved(position)
-                    notifyItemRangeChanged(position, cartItems.size)
+        apiService.updateCartItem(request).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    cartItems[position].quantity = newQuantity
+                    holder.productQuantity.text = newQuantity.toString()
+                    notifyItemChanged(position)
                     onCartUpdated?.invoke()
-                    Toast.makeText(context, "Item removed from cart.", Toast.LENGTH_SHORT).show()
-                    Log.d("CartAdapter", "Item removed successfully.")
+                    Toast.makeText(context, "Quantity updated successfully", Toast.LENGTH_SHORT).show()
                 } else {
-                    val errorMsg = response.body()?.message ?: "Failed to remove item."
-                    Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
-                    Log.e("CartAdapter", "Failed to remove item: $errorMsg")
+                    Toast.makeText(context, "Failed to update quantity", Toast.LENGTH_SHORT).show()
+                    Log.e("CartAdapter", "Server error: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("CartAdapter", "Error removing item: ${t.message}")
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Log.e("CartAdapter", "API call failed", t)
             }
         })
     }
 
+    private fun removeCartItem(cartItem: CartItem, position: Int, holder: CartViewHolder) {
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val request = RemoveCartItemRequest(user_id = userId, id = cartItem.id, flower_id = cartItem.flower_id)
 
+        apiService.removeCartItem(request).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                holder.btnClose.isEnabled = true
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody?.success == true) {
+                        cartItems.removeAt(position)
+                        notifyItemRemoved(position)
+                        onCartUpdated?.invoke()
+                        Toast.makeText(context, "Item removed successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, responseBody?.message ?: "Failed to remove item", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Server error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Log.e("CartAdapter", "Server error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                holder.btnClose.isEnabled = true
+                Toast.makeText(context, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Log.e("CartAdapter", "API call failed", t)
+            }
+        })
+    }
 
     class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val productName: TextView = itemView.findViewById(R.id.flower_name6)
