@@ -78,18 +78,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="20dp"
         android:paddingBottom="5dp"
-        android:weightSum="4">
-
-        <!-- Home Icon -->
-        <ImageButton
-            android:id="@+id/home_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/home"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/home_icon" />
+        android:weightSum="4"/>
 
     <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout

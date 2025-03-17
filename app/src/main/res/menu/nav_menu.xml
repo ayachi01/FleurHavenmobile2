@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/shopping_cart"
-        android:icon="@drawable/shopping_cart"
+        android:icon="@drawable/cart"
         android:title=""/>
 
     <item
         android:id="@+id/profile_icon"
-        android:icon="@drawable/person_icon"
+        android:icon="@drawable/person"
         android:title=""/>
 
 

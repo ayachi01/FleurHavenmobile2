@@ -1,7 +1,7 @@
 package com.example.fleurhaven.adapters
 
+import com.example.fleurhaven.api.ApiService
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +11,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.fleurhaven.Activity_Cart
 import com.example.fleurhaven.Activity_Main
 import com.example.fleurhaven.R
+import com.example.fleurhaven.api.ApiClient
+import com.example.fleurhaven.models.ApiResponse
+import com.example.fleurhaven.models.CartRequest
 import com.example.fleurhaven.models.Flower
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FlowerAdapter(private val context: Context, private var flowerList: MutableList<Flower>) :
     RecyclerView.Adapter<FlowerAdapter.ViewHolder>() {
+
+    private val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+    private val userId = sharedPreferences.getInt("user_id", -1) // Get userId as Int
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.flowerImage)
@@ -36,48 +44,54 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
         holder.name.text = flower.name
         holder.price.text = "₱${flower.price}"
 
-        // Load image using Glide with placeholder
         Glide.with(context)
-            .load(flower.image_url.ifEmpty { "https://via.placeholder.com/150" }) // ✅ Default image
+            .load(flower.image_url.ifEmpty { "https://via.placeholder.com/150" })
             .into(holder.image)
 
-        // Handle Add to Cart button click
         holder.addToCart.setOnClickListener {
-            addToCart(flower)
+            if (userId != -1) {
+                addToCart(flower)
+            } else {
+                Toast.makeText(context, "Please log in to add items to the cart.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     override fun getItemCount() = flowerList.size
 
-    // Function to update the list dynamically
     fun updateFlowers(newFlowers: List<Flower>) {
         flowerList.clear()
         flowerList.addAll(newFlowers)
         notifyDataSetChanged()
     }
 
-    // Function to handle adding flowers to cart
     private fun addToCart(flower: Flower) {
-        // Retrieve cart data from SharedPreferences
-        val sharedPreferences = context.getSharedPreferences("cart_data", Context.MODE_PRIVATE)
-        val cartItemsString = sharedPreferences.getString("cart_items", "")
-        val cartItemsList = cartItemsString?.split(",")?.toMutableList() ?: mutableListOf()
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
 
-        // Add the flower to the cart list
-        cartItemsList.add("${flower.name}:${flower.price}:${flower.image_url}")
+        // Use the CartRequest data class
+        val cartRequest = CartRequest(
+            user_id = userId,
+            flower_id = flower.id,
+            quantity = 1
+        )
 
-        // Save the updated cart items list to SharedPreferences
-        val editor = sharedPreferences.edit()
-        editor.putString("cart_items", cartItemsList.joinToString(","))
-        editor.apply()
+        val call = apiService.addToCart(cartRequest)
+        call.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
 
-        // Show a Toast message confirming the addition
-        Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
+                    if (context is Activity_Main) {
+                        context.updateCartCount()
+                    }
+                } else {
+                    Toast.makeText(context, "Failed to add to cart: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-        // Optionally, update the cart count in the Activity_Main
-        if (context is Activity_Main) {
-            context.updateCartCount()
-        }
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
-
 }
