@@ -1,5 +1,6 @@
 package com.example.fleurhaven
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -17,7 +18,9 @@ class Activity_Checkout : AppCompatActivity() {
     private lateinit var firstName: EditText
     private lateinit var lastName: EditText
     private lateinit var address: EditText
+    private lateinit var phone: EditText
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
@@ -25,6 +28,7 @@ class Activity_Checkout : AppCompatActivity() {
         firstName = findViewById(R.id.et_fn)
         lastName = findViewById(R.id.et_ln)
         address = findViewById(R.id.et_address)
+        phone = findViewById(R.id.et_phonenumber)
 
         val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userEmail = sharedPreferences.getString("email", null)
@@ -34,6 +38,7 @@ class Activity_Checkout : AppCompatActivity() {
         val savedFirstName = sharedPreferences.getString("first_name", "")
         val savedLastName = sharedPreferences.getString("last_name", "")
         val savedAddress = sharedPreferences.getString("address", "")
+        val savedPhone = sharedPreferences.getString("phone", "")
 
         if (!savedFirstName.isNullOrEmpty()) firstName.setText(savedFirstName)
         if (!savedLastName.isNullOrEmpty()) lastName.setText(savedLastName)
@@ -83,6 +88,7 @@ class Activity_Checkout : AppCompatActivity() {
             val firstNameInput = firstName.text.toString().trim()
             val lastNameInput = lastName.text.toString().trim()
             val addressInput = address.text.toString().trim()
+            val phoneNumberInput = phone.text.toString().trim()
 
             // Input validation
             if (firstNameInput.isEmpty()) {
@@ -95,6 +101,14 @@ class Activity_Checkout : AppCompatActivity() {
             }
             if (addressInput.isEmpty()) {
                 address.error = "Address is required"
+                return@setOnClickListener
+            }
+            if (phoneNumberInput.isEmpty()) {
+                phone.error = "Phone Number is required"
+                return@setOnClickListener
+            }
+            if (!phoneNumberInput.matches(Regex("\\d+"))) {
+                phone.error = "Phone Number must contain only digits"
                 return@setOnClickListener
             }
 
