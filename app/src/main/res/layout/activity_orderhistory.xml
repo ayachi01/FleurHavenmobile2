@@ -44,19 +44,85 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <TextView
-                android:id="@+id/tv_orderhistory"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/status_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/albertsans"
-                android:textColor="#000"
-                android:text="Order History"
-                android:textSize="18sp"
-                android:layout_margin="15dp"
-                tools:ignore="MissingConstraints"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="121dp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/status_processing"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Processing"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:background="@drawable/status_background" />
+
+                <!-- Cancel Button -->
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:backgroundTint="#FF6473"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/status_delivery"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Delivery"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:background="@drawable/status_background" />
+
+                <!-- Order Received Button -->
+                <Button
+                    android:id="@+id/received_button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="Order Received"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:backgroundTint="#4CAF50"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/status_completed"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Completed"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:background="@drawable/status_background" />
+
+                <TextView
+                    android:id="@+id/status_canceled"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Canceled"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:background="@drawable/status_background" />
+            </LinearLayout>
+
+
+
 
 
             <!--Order history-->
