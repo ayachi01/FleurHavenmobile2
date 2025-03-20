@@ -1,97 +1,80 @@
 package com.example.fleurhaven
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.example.fleurhaven.models.CartItem
 
 class Activity_Checkout : AppCompatActivity() {
 
-    private lateinit var tvItemsCount: TextView
-    private lateinit var tvTotalPrice: TextView
-    private lateinit var tvProductOrdered: TextView
-    private lateinit var btnPlaceOrder: Button
-    private lateinit var imgProduct: ImageView
+    private lateinit var firstName: EditText
+    private lateinit var lastName: EditText
+    private lateinit var address: EditText
+    private lateinit var phone: EditText
 
-    private var userEmail: String? = null
-    private var userPassword: String? = null
-
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
-        // Initialize Views
-        tvItemsCount = findViewById(R.id.tv_items_count)
-        tvTotalPrice = findViewById(R.id.tv_total_price)
-        tvProductOrdered = findViewById(R.id.tv_product_ordered)
-        btnPlaceOrder = findViewById(R.id.btn_place_order)
-        imgProduct = findViewById(R.id.img_product)
+        firstName = findViewById(R.id.et_fn)
+        lastName = findViewById(R.id.et_ln)
+        address = findViewById(R.id.et_address)
+        phone = findViewById(R.id.et_phonenumber)
 
-        // Load User Data
         val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        userEmail = sharedPreferences.getString("email", null)
-        userPassword = sharedPreferences.getString("password", null)
+        val userEmail = sharedPreferences.getString("email", null)
+        val userPassword = sharedPreferences.getString("password", null)
+
+        // Load saved user details
+        val savedFirstName = sharedPreferences.getString("first_name", "")
+        val savedLastName = sharedPreferences.getString("last_name", "")
+        val savedAddress = sharedPreferences.getString("address", "")
+        val savedPhone = sharedPreferences.getString("phone", "")
+
+        if (!savedFirstName.isNullOrEmpty()) firstName.setText(savedFirstName)
+        if (!savedLastName.isNullOrEmpty()) lastName.setText(savedLastName)
+        if (!savedAddress.isNullOrEmpty()) address.setText(savedAddress)
 
         if (userEmail == null || userPassword == null) {
             startActivity(Intent(this, Activity_Login::class.java))
-            finish() // Close checkout activity if not logged in
+            finish()
             return
         }
 
-        // Retrieve Data from Intent
-        val totalItems = intent.getIntExtra("TOTAL_ITEMS", 0)
-        val totalAmount = intent.getDoubleExtra("TOTAL_AMOUNT", 0.0)
-        val cartItems = intent.getSerializableExtra("cartItems") as? ArrayList<CartItem> ?: arrayListOf()
-
-        loadCheckoutItems(cartItems, totalItems, totalAmount)
-
-        // Navigation Icons
-        setupNavigation()
-
-        // Place Order Button
-        btnPlaceOrder.setOnClickListener {
-            showOrderPlacedDialog()
+        val cartItemsString = intent.getStringExtra("cart_items")
+        if (!cartItemsString.isNullOrEmpty()) {
+            val cartItems = cartItemsString.split(",")
+            loadCheckoutItems(cartItems)
         }
-    }
 
-    private fun loadCheckoutItems(cartItems: List<CartItem>, totalItems: Int, totalAmount: Double) {
-        val productsOrdered = cartItems.joinToString("\n") { "${it.flower_name} x${it.quantity}" }
+        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
+        val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
+        val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
+        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
+        val btnPlaceOrder = findViewById<Button>(R.id.btn_place_order)
 
-        tvItemsCount.text = "Items: $totalItems"
-        tvTotalPrice.text = "Total: ₱%.2f".format(totalAmount)
-        tvProductOrdered.text = "Products Ordered:\n$productsOrdered"
-
-        // Load the first product image if available
-        if (cartItems.isNotEmpty()) {
-            val firstImageUrl = cartItems[0].flower_image
-            Glide.with(this)
-                .load(firstImageUrl)
-                .placeholder(R.drawable.checkout_background)
-                .error(R.drawable.checkout_background)
-                .into(imgProduct)
-        }
-    }
-
-    private fun setupNavigation() {
-        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
+        homeIcon.setOnClickListener {
             startActivity(Intent(this, Activity_Main::class.java))
         }
 
-        findViewById<ImageButton>(R.id.order_icon).setOnClickListener {
+        orderIcon.setOnClickListener {
             startActivity(Intent(this, Activity_OrderHistory::class.java))
         }
 
-        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
+        cartIcon.setOnClickListener {
             startActivity(Intent(this, Activity_Cart::class.java))
         }
 
-        findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
+        profileIcon.setOnClickListener {
             val intent = if (userEmail != null && userPassword != null) {
                 Intent(this, Activity_Profile::class.java)
             } else {
@@ -99,6 +82,45 @@ class Activity_Checkout : AppCompatActivity() {
             }
             startActivity(intent)
         }
+
+        // Handle Place Order Button
+        btnPlaceOrder.setOnClickListener {
+            val firstNameInput = firstName.text.toString().trim()
+            val lastNameInput = lastName.text.toString().trim()
+            val addressInput = address.text.toString().trim()
+            val phoneNumberInput = phone.text.toString().trim()
+
+            // Input validation
+            if (firstNameInput.isEmpty()) {
+                firstName.error = "First name is required"
+                return@setOnClickListener
+            }
+            if (lastNameInput.isEmpty()) {
+                lastName.error = "Last name is required"
+                return@setOnClickListener
+            }
+            if (addressInput.isEmpty()) {
+                address.error = "Address is required"
+                return@setOnClickListener
+            }
+            if (phoneNumberInput.isEmpty()) {
+                phone.error = "Phone Number is required"
+                return@setOnClickListener
+            }
+            if (!phoneNumberInput.matches(Regex("\\d+"))) {
+                phone.error = "Phone Number must contain only digits"
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show()
+
+            startActivity(Intent(this, Activity_OrderHistory::class.java))
+        }
+    }
+
+
+    private fun loadCheckoutItems(cartItems: List<String>) {
+        // Implement logic to display cart items in checkout page
     }
 
     private fun showOrderPlacedDialog() {
@@ -109,7 +131,6 @@ class Activity_Checkout : AppCompatActivity() {
         val btnDone = dialog.findViewById<Button>(R.id.btn_done)
         btnDone.setOnClickListener {
             dialog.dismiss()
-            Toast.makeText(this, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, Activity_Main::class.java))
         }
 
