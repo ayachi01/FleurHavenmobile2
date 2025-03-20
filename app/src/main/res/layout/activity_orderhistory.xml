@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".Activity_Cart">
 
+
+    <!-- BOTTOM NAVIGATION BAR -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,19 +39,20 @@
                         android:fontFamily="@font/albertsans"
                         android:gravity="center"
                         android:text="Orders"
-                        android:textStyle="bold"
                         android:textColor="#000"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:id="@+id/status_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="10dp">
 
                 <TextView
@@ -57,72 +60,48 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:background="@drawable/status_background"
                     android:gravity="center"
                     android:text="Processing"
                     android:textColor="#000"
-                    android:textSize="14sp"
-                    android:background="@drawable/status_background" />
+                    android:textSize="14sp" />
 
-                <!-- Cancel Button -->
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:backgroundTint="#FF6473"
-                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/status_delivery"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:background="@drawable/status_background"
                     android:gravity="center"
                     android:text="Delivery"
                     android:textColor="#000"
-                    android:textSize="14sp"
-                    android:background="@drawable/status_background" />
+                    android:textSize="14sp" />
 
                 <!-- Order Received Button -->
-                <Button
-                    android:id="@+id/received_button"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:text="Order Received"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:backgroundTint="#4CAF50"
-                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/status_completed"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:background="@drawable/status_background"
                     android:gravity="center"
                     android:text="Completed"
                     android:textColor="#000"
-                    android:textSize="14sp"
-                    android:background="@drawable/status_background" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/status_canceled"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:background="@drawable/status_background"
                     android:gravity="center"
                     android:text="Canceled"
                     android:textColor="#000"
-                    android:textSize="14sp"
-                    android:background="@drawable/status_background" />
+                    android:textSize="14sp" />
             </LinearLayout>
-
-
-
 
 
             <!--Order history-->
@@ -132,6 +111,7 @@
                 android:layout_height="match_parent"
                 android:background="#EEEEEE"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/frame1"
                     android:layout_width="100dp"
@@ -145,13 +125,15 @@
 
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="281dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/flower_name"
                             android:layout_width="236dp"
@@ -176,31 +158,47 @@
                         android:textColor="#000"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/albertsans"
-                        android:text="Order Placed"
-                        android:textColor="#000"
-                        android:textSize="15sp"
-                        android:layout_gravity="right"/>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv_item"
                             android:layout_width="50dp"
                             android:layout_height="40dp"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="0dp"
                             android:gravity="center"
                             android:text="Item: 1"
-                            android:textSize="14sp"
-                            android:layout_gravity="right"
                             android:textColor="@android:color/black"
-                            android:layout_marginTop="0dp"/>
+                            android:textSize="14sp" />
+
+                        <!-- Cancel Button -->
+                        <Button
+                            android:id="@+id/cancel_button"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#FF6473"
+                            android:text="Cancel"
+                            android:textColor="#FFF"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <!-- Order Received Button -->
+                        <Button
+                            android:id="@+id/received_button"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#FDE9EC"
+                            android:text="Order Received"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:visibility="gone"/>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -209,10 +207,6 @@
         </LinearLayout>
     </ScrollView>
 
-
-
-
-    <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
