@@ -48,4 +48,11 @@ interface ApiService {
 
     @POST("checkout.php")
     fun checkout(@Body request: CheckoutRequest): Call<CheckoutResponse>
+
+    @GET("check_cart_item.php")
+    fun checkCartItem(
+        @Query("user_id") userId: Int,
+        @Query("flower_id") flowerId: Int
+    ): Call<ApiResponse>
+
 }

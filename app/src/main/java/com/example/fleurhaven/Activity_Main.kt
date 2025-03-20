@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -21,38 +22,41 @@ class Activity_Main : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FlowerAdapter
     private lateinit var cartCountTextView: TextView
+    private var userId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Retrieve user ID from SharedPreferences
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        userId = sharedPreferences.getInt("user_id", -1).takeIf { it != -1 }
+
+        if (userId == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, Activity_Login::class.java))
+            finish()
+            return
+        }
+
         // Navigation Bar Logic
-        val homeIcon: ImageButton = findViewById(R.id.home_icon)
-        homeIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Main::class.java)
-            startActivity(intent)
+        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Main::class.java))
         }
 
-        val cartIcon: ImageButton = findViewById(R.id.cart_icon)
-        cartIcon.setOnClickListener {
+        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
             val intent = Intent(this, Activity_Cart::class.java)
-            // Passing cart item count to Activity_Cart
-            val sharedPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
-            val cartItemsString = sharedPreferences.getString("cart_items", "")
-            val itemCount = cartItemsString?.split(",")?.filter { it.isNotEmpty() }?.size ?: 0
-            intent.putExtra("cart_item_count", itemCount)
+            intent.putExtra("user_id", userId)
             startActivity(intent)
         }
 
-        val profileIcon: ImageButton = findViewById(R.id.profile_icon)
-        profileIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Profile::class.java)
-            startActivity(intent)
+        findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Profile::class.java))
         }
 
         // RecyclerView Setup
         recyclerView = findViewById(R.id.flowerRecyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 2) // Two-column grid
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
         adapter = FlowerAdapter(this, mutableListOf())
         recyclerView.adapter = adapter
 
@@ -66,7 +70,7 @@ class Activity_Main : AppCompatActivity() {
 
     private fun fetchFlowers() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2/FleurHavenMobileAPI/") // Correct for Emulator
+            .baseUrl("http://10.0.2.2/FleurHavenMobileAPI/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -79,8 +83,7 @@ class Activity_Main : AppCompatActivity() {
                     adapter.updateFlowers(flowers)
                     Toast.makeText(this@Activity_Main, "Flowers loaded successfully!", Toast.LENGTH_SHORT).show()
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    Log.e("API_ERROR", "Failed: $errorBody")
+                    Log.e("API_ERROR", "Error loading flowers")
                     Toast.makeText(this@Activity_Main, "Error loading flowers", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -92,27 +95,17 @@ class Activity_Main : AppCompatActivity() {
         })
     }
 
-    private fun checkProfile() {
-        val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val intent = if (sharedPreferences.contains("email")) {
-            Intent(this, Activity_Profile::class.java)
-        } else {
-            Intent(this, Activity_Login::class.java)
-        }
-        startActivity(intent)
-    }
-
     fun updateCartCount() {
-        val sharedPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
-        val cartItemsString = sharedPreferences.getString("cart_items", "")
-        val itemCount = cartItemsString?.split(",")?.filter { it.isNotEmpty() }?.size ?: 0
+        val cartPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
+        val cartItemsString = cartPreferences.getString("cart_items_${userId}", null)
+        val cartItems = cartItemsString?.split(",")?.filter { it.isNotEmpty() } ?: emptyList()
 
-        if (itemCount > 0) {
-            cartCountTextView.text = itemCount.toString()
-            cartCountTextView.visibility = TextView.VISIBLE
-        } else {
-            cartCountTextView.visibility = TextView.GONE
+        runOnUiThread {
+            cartCountTextView.text = cartItems.size.toString()
+            cartCountTextView.visibility = if (cartItems.isNotEmpty()) View.VISIBLE else View.GONE
         }
+
+        Log.d("CART_DEBUG", "Cart items for user $userId: $cartItems")
     }
 
     override fun onResume() {

@@ -17,6 +17,8 @@ import com.example.fleurhaven.api.ApiClient
 import com.example.fleurhaven.models.ApiResponse
 import com.example.fleurhaven.models.CartRequest
 import com.example.fleurhaven.models.Flower
+import com.example.fleurhaven.models.UpdateCartItemRequest
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +52,7 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
 
         holder.addToCart.setOnClickListener {
             if (userId != -1) {
-                addToCart(flower)
+                checkCartAndAdd(flower)
             } else {
                 Toast.makeText(context, "Please log in to add items to the cart.", Toast.LENGTH_SHORT).show()
             }
@@ -65,31 +67,91 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
         notifyDataSetChanged()
     }
 
-    private fun addToCart(flower: Flower) {
+    private fun checkCartAndAdd(flower: Flower) {
         val apiService = ApiClient.getClient().create(ApiService::class.java)
 
-        // Use the CartRequest data class
-        val cartRequest = CartRequest(
-            user_id = userId,
-            flower_id = flower.id,
-            quantity = 1
-        )
-
-        val call = apiService.addToCart(cartRequest)
-        call.enqueue(object : Callback<ApiResponse> {
+        apiService.checkCartItem(userId, flower.id).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
-                    Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful) {
+                    val cartItemExists = response.body()?.success == true
+                    val quantity = response.body()?.quantity ?: 0  // Get existing quantity
 
-                    if (context is Activity_Main) {
-                        context.updateCartCount()
+                    if (cartItemExists && quantity > 0) {
+                        updateCartQuantity(flower, quantity) // Pass current quantity
+                    } else {
+                        addToCart(flower)
                     }
-                } else {
-                    Toast.makeText(context, "Failed to add to cart: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+    private fun addToCart(flower: Flower) {
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
+
+        val checkCall = apiService.checkCartItem(userId, flower.id)
+        checkCall.enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    Toast.makeText(context, "${flower.name} is already in the cart!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // If the item is not in the cart, proceed to add it
+                    val cartRequest = CartRequest(
+                        user_id = userId,
+                        flower_id = flower.id,
+                        quantity = 1
+                    )
+
+                    val addCall = apiService.addToCart(cartRequest)
+                    addCall.enqueue(object : Callback<ApiResponse> {
+                        override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                            if (response.isSuccessful && response.body()?.success == true) {
+                                Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "Failed to add to cart: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+    private fun updateCartQuantity(flower: Flower, currentQuantity: Int) {
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
+
+        val newQuantity = currentQuantity + 1  // Ensure only 1 increment happens
+
+        val updateRequest = UpdateCartItemRequest(
+            userId = userId,
+            id = flower.id,
+            quantity = newQuantity
+        )
+
+        apiService.updateCartItem(updateRequest).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "Cart updated: $newQuantity items!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Failed to update cart", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

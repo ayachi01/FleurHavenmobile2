@@ -1,42 +1,42 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".Activity_Checkout">
+
+
+    <!-- Checkout -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:background="@android:color/white"
-        tools:context=".Activity_Checkout">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#FDE9EC"
+        app:cardCornerRadius="7dp">
 
-
-        <!-- Checkout -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/banner"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#FDE9EC"
-            app:cardCornerRadius="7dp">
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/albertsans"
-                    android:gravity="center"
-                    android:text="Checkout"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:textSize="25sp" />
+                android:layout_height="match_parent"
+                android:fontFamily="@font/albertsans"
+                android:gravity="center"
+                android:text="Checkout"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="25sp" />
 
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,92 +50,237 @@
             android:orientation="vertical">
 
 
-        <!-- Products Ordered Section -->
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:id="@+id/tv_product_ordered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Products Ordered"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/albertsans"
-            android:textColor="@android:color/black"/>
-
-        <!-- Horizontal Scroll for products -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:id="@+id/img_product"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:background="#808080"
-                    android:elevation="10dp"
-                    android:src="@drawable/checkout_background" />
-            </LinearLayout>
-        </HorizontalScrollView>
-
-
-        <!-- Items and Total -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
-
+            <!-- Products Ordered Section -->
             <TextView
-                android:layout_marginStart="20dp"
-                android:id="@+id/tv_items_count"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tv_product_ordered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Products Ordered"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:fontFamily="@font/albertsans"
-                android:text="Items: 0"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/black"/>
 
+            <!-- Horizontal Scroll for products -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        android:background="#808080"
+                        android:elevation="10dp"
+                        android:src="@drawable/checkout_background" />
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checkout_background"
+                        android:background="#808080"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"/>
+
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+            <!-- Items and Total -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/tv_items_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/albertsans"
+                    android:text="Items: 1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total: 1,000"
+                    android:paddingEnd="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/albertsans"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <!-- Horizontal Line -->
             <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="1dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#FFEBEC"
 
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Personal Details -->
             <TextView
-                android:id="@+id/tv_total_price"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Price: ₱0.0"
-                android:paddingEnd="5dp"
-                android:layout_marginEnd="20dp"
+                android:text="Personal Details"
+                android:layout_marginStart="18dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/albertsans"
                 android:textColor="@android:color/black"/>
-        </LinearLayout>
 
-        <!-- Horizontal Line -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="#FFEBEC"
+            <EditText
+                android:id="@+id/et_fn"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:text="First Name"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+            </EditText>
 
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
+            <EditText
+                android:id="@+id/et_ln"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:text="Last Name"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+            </EditText>
+
+            <!-- Address -->
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_marginStart="18dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/albertsans"
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:text="Address"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+            </EditText>
+
+            <!-- Contact Number -->
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:layout_marginStart="18dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/albertsans"
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/et_phonenumber"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:text="+63"
+                android:background="@drawable/border_checkout"
+                android:padding="12dp"
+                android:layout_marginBottom="4dp">
+            </EditText>
 
             <!-- Order Option -->
             <TextView
@@ -211,7 +356,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-               android:layout_marginStart="18dp"
+                android:layout_marginStart="18dp"
                 android:fontFamily="@font/albertsans"
                 android:text="Select Payment Method"
                 android:textColor="@android:color/black"
@@ -315,7 +460,7 @@
                     android:id="@+id/tv_subtotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Subtotal: ₱0.0"
+                    android:text="Subtotal: ₱1,000"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/albertsans"/>
@@ -324,7 +469,7 @@
                     android:id="@+id/tv_fee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Delivery Fee: ₱0.0"
+                    android:text="Delivery Fee: ₱50"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"
                     android:fontFamily="@font/albertsans"/>
@@ -334,7 +479,7 @@
                     android:id="@+id/tv_total_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Total: ₱0.0"
+                    android:text="Total: ₱1,050"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
@@ -344,116 +489,116 @@
 
 
             <!-- Order Button -->
-        <Button
-            android:id="@+id/btn_place_order"
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:backgroundTint="#FFEBEC"
-            android:fontFamily="@font/albertsans"
-            android:text="PLACE ORDER NOW"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <Button
+                android:id="@+id/btn_place_order"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#FFEBEC"
+                android:fontFamily="@font/albertsans"
+                android:text="PLACE ORDER NOW"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
 
-        <!-- BOTTOM NAVIGATION BAR -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:background="#FFDFE1"
-            android:elevation="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="20dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="5dp"
-            android:weightSum="5">
+    <!-- BOTTOM NAVIGATION BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFDFE1"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
+        android:weightSum="5">
 
-            <!-- Home Icon -->
+        <!-- Home Icon -->
+        <ImageButton
+            android:id="@+id/home_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/home"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/home_icon" />
+
+        <!-- FrameLayout containing Cart Icon and Badge -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <!-- Cart Icon -->
             <ImageButton
-                android:id="@+id/home_icon"
-                android:layout_width="30dp"
+                android:id="@+id/cart_icon"
+                android:layout_width="35dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/home"
+                android:contentDescription="@string/cart"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/home_icon" />
+                app:srcCompat="@drawable/cart" />
 
-            <!-- FrameLayout containing Cart Icon and Badge -->
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center">
+            <!-- Cart Count Badge -->
+            <TextView
+                android:id="@+id/cart_count"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/badge_background"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_gravity="top|center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"/>
+        </FrameLayout>
 
-                <!-- Cart Icon -->
-                <ImageButton
-                    android:id="@+id/cart_icon"
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="@string/cart"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/cart" />
+        <!-- Profile Icon -->
+        <ImageButton
+            android:id="@+id/profile_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/profile"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/person" />
 
-                <!-- Cart Count Badge -->
-                <TextView
-                    android:id="@+id/cart_count"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/badge_background"
-                    android:text="0"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:layout_gravity="top|center"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="0dp"/>
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
 
             <!-- Profile Icon -->
             <ImageButton
-                android:id="@+id/profile_icon"
-                android:layout_width="30dp"
+                android:id="@+id/order_icon"
+                android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
                 android:layout_marginStart="5dp"
-                android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/profile"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/person" />
-
-            <FrameLayout
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-
-                <!-- Profile Icon -->
-                <ImageButton
-                    android:id="@+id/order_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="5dp"
-                    android:contentDescription="@string/profile"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    android:background="@drawable/orders" />
-            </FrameLayout>
-
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:background="@drawable/orders" />
+        </FrameLayout>
 
     </LinearLayout>
+
+</LinearLayout>

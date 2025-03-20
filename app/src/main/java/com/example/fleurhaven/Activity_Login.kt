@@ -80,7 +80,7 @@ class Activity_Login : AppCompatActivity() {
                                 Toast.makeText(this@Activity_Login, "Login failed: ${userResponse?.message}", Toast.LENGTH_SHORT).show()
                             }
                         } else {
-                            Toast.makeText(this@Activity_Login, "Error: ${response.code()} - ${response.message()}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@Activity_Login, "Error: Incorrect Email or Password", Toast.LENGTH_SHORT).show()
                         }
                     }
 
