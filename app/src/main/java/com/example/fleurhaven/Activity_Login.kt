@@ -1,5 +1,6 @@
 package com.example.fleurhaven
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -59,16 +60,24 @@ class Activity_Login : AppCompatActivity() {
                     override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                         if (response.isSuccessful) {
                             val userResponse = response.body()
-                            if (userResponse != null) {
-                                if (userResponse.success) {
+                            if (userResponse != null && userResponse.success) {
+                                val userId = userResponse.user?.id
+                                if (userId != null) {
+                                    // Save the user ID in SharedPreferences
+                                    val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                                    with(sharedPreferences.edit()) {
+                                        putInt("user_id", userId)
+                                        apply()
+                                    }
+
                                     Toast.makeText(this@Activity_Login, userResponse.message, Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(this@Activity_Login, Activity_Main::class.java))
                                     finish()
                                 } else {
-                                    Toast.makeText(this@Activity_Login, "Login failed: ${userResponse.message}", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@Activity_Login, "Error: User ID is missing", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                Toast.makeText(this@Activity_Login, "Error: Empty response from server", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@Activity_Login, "Login failed: ${userResponse?.message}", Toast.LENGTH_SHORT).show()
                             }
                         } else {
                             Toast.makeText(this@Activity_Login, "Error: ${response.code()} - ${response.message()}", Toast.LENGTH_SHORT).show()

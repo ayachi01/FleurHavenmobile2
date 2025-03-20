@@ -32,8 +32,9 @@ class Activity_Profile : AppCompatActivity() {
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val orderIcon = findViewById<ImageButton>(R.id.order_icon)
-        val editAddress = findViewById<Button>(R.id.saveAddressButton)
-        addressTextView = findViewById(R.id.addressEditText)
+        val editAddress = findViewById<ImageButton>(R.id.editaddress_icon)
+        addressTextView = findViewById(R.id.addresstxt)
+        val logoutButton: Button = findViewById(R.id.logout_button)
 
         if (userEmail == null) {
             startActivity(Intent(this, Activity_Login::class.java))
@@ -41,7 +42,7 @@ class Activity_Profile : AppCompatActivity() {
             return
         }
 
-        findViewById<TextView>(R.id.email_txt).text = userEmail
+        findViewById<TextView>(R.id.emailtxt).text = userEmail
         loadAddress()
 
         homeIcon.setOnClickListener {
@@ -66,6 +67,24 @@ class Activity_Profile : AppCompatActivity() {
         editAddress.setOnClickListener {
             showSetAddressDialog()
         }
+
+        logoutButton.setOnClickListener {
+            logoutUser()
+        }
+    }
+
+    private fun logoutUser() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        val profilePref = getSharedPreferences("user_data", MODE_PRIVATE).edit()
+        profilePref.clear()
+        profilePref.apply()
+
+        Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, Activity_Login::class.java))
+        finish()
     }
 
     private fun showSetAddressDialog() {
