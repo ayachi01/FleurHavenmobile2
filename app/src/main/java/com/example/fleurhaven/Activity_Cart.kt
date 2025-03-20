@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -46,8 +47,8 @@ class Activity_Cart : AppCompatActivity() {
         recyclerView.adapter = cartAdapter
 
         fetchCartItems()
-
         setupNavigationBar()
+        setupCheckoutButton()
     }
 
     private fun fetchCartItems() {
@@ -80,6 +81,25 @@ class Activity_Cart : AppCompatActivity() {
         val totalAmountTextView: TextView = findViewById(R.id.tv_amount)
         val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
         totalAmountTextView.text = "₱${"%.2f".format(totalAmount)}"
+    }
+
+    private fun setupCheckoutButton() {
+        val checkoutButton: Button = findViewById(R.id.checkoutBtn)
+        checkoutButton.setOnClickListener {
+            if (cartItems.isEmpty()) {
+                Toast.makeText(this, "Your cart is empty!", Toast.LENGTH_SHORT).show()
+            } else {
+                val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
+                val totalItems = cartItems.sumOf { it.quantity }
+
+                val intent = Intent(this, Activity_Checkout::class.java).apply {
+                    putExtra("TOTAL_AMOUNT", totalAmount)
+                    putExtra("TOTAL_ITEMS", totalItems)
+                    putExtra("cartItems", ArrayList(cartItems)) // Pass cartItems as Serializable
+                }
+                startActivity(intent)
+            }
+        }
     }
 
     private fun setupNavigationBar() {

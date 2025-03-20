@@ -6,19 +6,37 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.fleurhaven.models.CartItem
 
 class Activity_Checkout : AppCompatActivity() {
+
+    private lateinit var tvItemsCount: TextView
+    private lateinit var tvTotalPrice: TextView
+    private lateinit var tvProductOrdered: TextView
+    private lateinit var btnPlaceOrder: Button
+    private lateinit var imgProduct: ImageView
+
+    private var userEmail: String? = null
+    private var userPassword: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
+        // Initialize Views
+        tvItemsCount = findViewById(R.id.tv_items_count)
+        tvTotalPrice = findViewById(R.id.tv_total_price)
+        tvProductOrdered = findViewById(R.id.tv_product_ordered)
+        btnPlaceOrder = findViewById(R.id.btn_place_order)
+        imgProduct = findViewById(R.id.img_product)
+
+        // Load User Data
         val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userEmail = sharedPreferences.getString("email", null)
-        val userPassword = sharedPreferences.getString("password", null)
+        userEmail = sharedPreferences.getString("email", null)
+        userPassword = sharedPreferences.getString("password", null)
 
         if (userEmail == null || userPassword == null) {
             startActivity(Intent(this, Activity_Login::class.java))
@@ -26,49 +44,61 @@ class Activity_Checkout : AppCompatActivity() {
             return
         }
 
-        // Retrieve cart data from Intent
-        val cartItemsString = intent.getStringExtra("cart_items")
-        if (!cartItemsString.isNullOrEmpty()) {
-            val cartItems = cartItemsString.split(",")
-            loadCheckoutItems(cartItems) // Display cart items
-        }
+        // Retrieve Data from Intent
+        val totalItems = intent.getIntExtra("TOTAL_ITEMS", 0)
+        val totalAmount = intent.getDoubleExtra("TOTAL_AMOUNT", 0.0)
+        val cartItems = intent.getSerializableExtra("cartItems") as? ArrayList<CartItem> ?: arrayListOf()
 
-        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
-        val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
-        val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
-        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
-        val btnPlaceOrder = findViewById<Button>(R.id.btn_place_order) // Add your checkout button ID
+        loadCheckoutItems(cartItems, totalItems, totalAmount)
 
-        homeIcon.setOnClickListener {
-            startActivity(Intent(this, Activity_Main::class.java))
-        }
+        // Navigation Icons
+        setupNavigation()
 
-        orderIcon.setOnClickListener {
-            val intent = Intent(this, Activity_OrderHistory::class.java)
-            startActivity(intent)
-        }
-
-        cartIcon.setOnClickListener {
-            startActivity(Intent(this, Activity_Cart::class.java))
-        }
-
-        profileIcon.setOnClickListener {
-            val intent = if (userEmail != null && userPassword != null) {
-                Intent(this, Activity_Profile::class.java) // Go to Profile if logged in
-            } else {
-                Intent(this, Activity_Login::class.java) // Otherwise, go to Login
-            }
-            startActivity(intent)
-        }
-
-        // Show Order Placed Dialog when placing an order
+        // Place Order Button
         btnPlaceOrder.setOnClickListener {
             showOrderPlacedDialog()
         }
     }
 
-    private fun loadCheckoutItems(cartItems: List<String>) {
-        // Implement logic to display cart items in checkout page
+    private fun loadCheckoutItems(cartItems: List<CartItem>, totalItems: Int, totalAmount: Double) {
+        val productsOrdered = cartItems.joinToString("\n") { "${it.flower_name} x${it.quantity}" }
+
+        tvItemsCount.text = "Items: $totalItems"
+        tvTotalPrice.text = "Total: ₱%.2f".format(totalAmount)
+        tvProductOrdered.text = "Products Ordered:\n$productsOrdered"
+
+        // Load the first product image if available
+        if (cartItems.isNotEmpty()) {
+            val firstImageUrl = cartItems[0].flower_image
+            Glide.with(this)
+                .load(firstImageUrl)
+                .placeholder(R.drawable.checkout_background)
+                .error(R.drawable.checkout_background)
+                .into(imgProduct)
+        }
+    }
+
+    private fun setupNavigation() {
+        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Main::class.java))
+        }
+
+        findViewById<ImageButton>(R.id.order_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_OrderHistory::class.java))
+        }
+
+        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
+            startActivity(Intent(this, Activity_Cart::class.java))
+        }
+
+        findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
+            val intent = if (userEmail != null && userPassword != null) {
+                Intent(this, Activity_Profile::class.java)
+            } else {
+                Intent(this, Activity_Login::class.java)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun showOrderPlacedDialog() {
@@ -79,7 +109,8 @@ class Activity_Checkout : AppCompatActivity() {
         val btnDone = dialog.findViewById<Button>(R.id.btn_done)
         btnDone.setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, Activity_Main::class.java)) // Redirect to Home after clicking Done
+            Toast.makeText(this, "Order Placed Successfully!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, Activity_Main::class.java))
         }
 
         dialog.show()
