@@ -213,7 +213,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_gravity="center"
-            android:text="First Name"
+            android:hint="First Name"
             android:background="@drawable/border_checkout"
             android:padding="12dp"
             android:layout_marginBottom="4dp">
@@ -226,7 +226,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_gravity="center"
-            android:text="Last Name"
+            android:hint="Last Name"
             android:background="@drawable/border_checkout"
             android:padding="12dp"
             android:layout_marginBottom="4dp">
@@ -251,7 +251,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_gravity="center"
-            android:text="Address"
+            android:hint="Address"
             android:background="@drawable/border_checkout"
             android:padding="12dp"
             android:layout_marginBottom="4dp">
@@ -276,7 +276,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_gravity="center"
-            android:text="+63"
+            android:hint="eg. 09876543210"
             android:background="@drawable/border_checkout"
             android:padding="12dp"
             android:layout_marginBottom="4dp">

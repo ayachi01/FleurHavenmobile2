@@ -5,6 +5,8 @@ import com.example.fleurhaven.models.UserResponse
 import com.example.fleurhaven.models.ApiResponse
 import com.example.fleurhaven.models.CartItem
 import com.example.fleurhaven.models.CartRequest
+import com.example.fleurhaven.models.CheckoutRequest
+import com.example.fleurhaven.models.CheckoutResponse
 import com.example.fleurhaven.models.Flower
 import com.example.fleurhaven.models.RemoveCartItemRequest
 import com.example.fleurhaven.models.UpdateAddressRequest
@@ -43,4 +45,14 @@ interface ApiService {
 
     @POST("remove_cart_item.php")
     fun removeCartItem(@Body request: RemoveCartItemRequest): Call<ApiResponse>
+
+    @POST("checkout.php")
+    fun checkout(@Body request: CheckoutRequest): Call<CheckoutResponse>
+
+    @GET("check_cart_item.php")
+    fun checkCartItem(
+        @Query("user_id") userId: Int,
+        @Query("flower_id") flowerId: Int
+    ): Call<ApiResponse>
+
 }

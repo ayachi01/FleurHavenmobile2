@@ -3,11 +3,11 @@ package com.example.fleurhaven
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fleurhaven.api.RetrofitClient
 import com.example.fleurhaven.models.UserResponse
@@ -17,8 +17,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Activity_Login : AppCompatActivity() {
-    private var isPasswordVisible = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -27,21 +25,6 @@ class Activity_Login : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         val loginButton = findViewById<Button>(R.id.loginBtn)
         val signUpText = findViewById<TextView>(R.id.signupText)
-        val passwordToggle = findViewById<ImageView>(R.id.passwordToggle)
-        val errorMessage = findViewById<TextView>(R.id.errorMessage)
-
-        // Password visibility toggle functionality
-        passwordToggle.setOnClickListener {
-            isPasswordVisible = !isPasswordVisible
-            if (isPasswordVisible) {
-                passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                passwordToggle.setImageResource(R.drawable.eye_open)
-            } else {
-                passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                passwordToggle.setImageResource(R.drawable.eye_close)
-            }
-            passwordEditText.setSelection(passwordEditText.text.length)
-        }
 
         // Redirect to Signup Activity
         signUpText.setOnClickListener {
@@ -86,27 +69,23 @@ class Activity_Login : AppCompatActivity() {
                                         putInt("user_id", userId)
                                         apply()
                                     }
-                                    errorMessage.visibility = View.GONE // Hide error message if login is correct
+
                                     Toast.makeText(this@Activity_Login, userResponse.message, Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(this@Activity_Login, Activity_Main::class.java))
                                     finish()
                                 } else {
-                                    errorMessage.visibility = View.VISIBLE
-                                    errorMessage.text = "Error: User ID is missing"
+                                    Toast.makeText(this@Activity_Login, "Error: User ID is missing", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                errorMessage.visibility = View.VISIBLE
-                                errorMessage.text = "Incorrect email or password"
+                                Toast.makeText(this@Activity_Login, "Login failed: ${userResponse?.message}", Toast.LENGTH_SHORT).show()
                             }
                         } else {
-                            errorMessage.visibility = View.VISIBLE
-                            errorMessage.text = "Error: ${response.code()} - ${response.message()}"
+                            Toast.makeText(this@Activity_Login, "Error: Incorrect Email or Password", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                        errorMessage.visibility = View.VISIBLE
-                        errorMessage.text = "Network error: ${t.localizedMessage}"
+                        Toast.makeText(this@Activity_Login, "Network error: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
                         Log.e("Activity_Login", "Login failed", t)
                     }
                 })

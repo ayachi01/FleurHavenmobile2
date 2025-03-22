@@ -1,8 +1,7 @@
 package com.example.fleurhaven.models
 
-data class ApiResponse(
+data class CheckoutResponse(
     val success: Boolean,
     val message: String,
-    val quantity: Int? = null
+    val order_id: Int? = null
 )
-
