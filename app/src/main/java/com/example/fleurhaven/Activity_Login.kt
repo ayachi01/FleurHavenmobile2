@@ -55,7 +55,7 @@ class Activity_Login : AppCompatActivity() {
             val request = SignupRequest(email, password)
 
             // Perform login request
-            RetrofitClient.instance.loginUser(request)
+            RetrofitClient.apiService.loginUser(request)
                 .enqueue(object : Callback<UserResponse> {
                     override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                         if (response.isSuccessful) {
@@ -64,9 +64,10 @@ class Activity_Login : AppCompatActivity() {
                                 val userId = userResponse.user?.id
                                 if (userId != null) {
                                     // Save the user ID in SharedPreferences
-                                    val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                                    val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
                                     with(sharedPreferences.edit()) {
-                                        putInt("user_id", userId)
+                                        putInt("user_id", userId) // Store user ID
+                                        putString("email", email) // Store email
                                         apply()
                                     }
 

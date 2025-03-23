@@ -5,13 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fleurhaven.api.RetrofitClient
-import com.example.fleurhaven.models.ApiResponse
-import com.example.fleurhaven.models.UpdateAddressRequest
+import com.example.fleurhaven.api.ApiClient
+import com.example.fleurhaven.models.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +16,9 @@ import retrofit2.Response
 class Activity_Profile : AppCompatActivity() {
 
     private lateinit var addressTextView: TextView
+    private lateinit var firstNameTextView: TextView
+    private lateinit var lastNameTextView: TextView
+    private lateinit var emailTextView: TextView
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,135 +28,96 @@ class Activity_Profile : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("User_Profile", Context.MODE_PRIVATE)
 
         val profilePref = getSharedPreferences("user_data", MODE_PRIVATE)
-        val userEmail = profilePref.getString("email", null)
+        val userId = profilePref.getInt("user_id", -1)
+
         val homeIcon = findViewById<ImageButton>(R.id.home_icon)
         val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
         val orderIcon = findViewById<ImageButton>(R.id.order_icon)
-        val editAddress = findViewById<ImageButton>(R.id.editaddress_icon)
-        addressTextView = findViewById(R.id.addresstxt)
-        val logoutButton: Button = findViewById(R.id.logout_button)
+        addressTextView = findViewById(R.id.address_txt)
+        firstNameTextView = findViewById(R.id.firstNameTxt)
+        lastNameTextView = findViewById(R.id.lastNameTxt)
+        emailTextView = findViewById(R.id.email_txt)
+        val logoutButton = findViewById<Button>(R.id.LogoutButton)
 
-        if (userEmail == null) {
-            startActivity(Intent(this, Activity_Login::class.java))
-            finish()
+        if (userId == -1) {
+            redirectToLogin()
             return
         }
 
-        findViewById<TextView>(R.id.emailtxt).text = userEmail
-        loadAddress()
+        fetchUserDetails(userId)
 
-        homeIcon.setOnClickListener {
-            val intent = Intent(this, Activity_Main::class.java)
-            startActivity(intent)
-        }
-
-        orderIcon.setOnClickListener {
-            val intent = Intent(this, Activity_OrderHistory::class.java)
-            startActivity(intent)
-        }
+        homeIcon.setOnClickListener { navigateTo(Activity_Main::class.java) }
+        orderIcon.setOnClickListener { navigateTo(Activity_OrderHistory::class.java) }
 
         cartIcon.setOnClickListener {
-            val savedAddress = sharedPreferences.getString("address", null)
-            if (savedAddress == null) {
-                Toast.makeText(this, "Please set your address before proceeding to the cart.", Toast.LENGTH_SHORT).show()
+            val userAddress = addressTextView.text.toString()
+            if (userAddress.isNullOrEmpty() || userAddress == "No address set") {
+                showToast("Please set your address before proceeding to the cart.")
             } else {
-                startActivity(Intent(this, Activity_Cart::class.java))
+                navigateTo(Activity_Cart::class.java)
             }
         }
 
-        editAddress.setOnClickListener {
-            showSetAddressDialog()
-        }
-
-        logoutButton.setOnClickListener {
-            logoutUser()
-        }
+        logoutButton.setOnClickListener { logoutUser() }
     }
 
-    private fun logoutUser() {
-        val editor = sharedPreferences.edit()
-        editor.clear()
+    private fun fetchUserDetails(userId: Int) {
+        val apiService = ApiClient.retrofit?.create(com.example.fleurhaven.api.ApiService::class.java)
+        val call = apiService?.getUserDetails(userId)
+
+        call?.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val userResponse = response.body()
+                    if (userResponse != null && userResponse.success) {
+                        firstNameTextView.text = userResponse.user?.firstName ?: "N/A"
+                        lastNameTextView.text = userResponse.user?.lastName ?: "N/A"
+                        emailTextView.text = userResponse.user?.email ?: "N/A"
+                        addressTextView.text = userResponse.user?.address ?: "No address set"
+
+                        saveUserDataToPrefs(userResponse)
+                    } else {
+                        showToast("Failed to retrieve user data")
+                    }
+                } else {
+                    showToast("Server error: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Log.e("ProfileActivity", "API Error: ${t.message}", t)
+                showToast("Network error! Please try again.")
+            }
+        })
+    }
+
+    private fun saveUserDataToPrefs(userResponse: UserResponse) {
+        val editor = getSharedPreferences("user_data", MODE_PRIVATE).edit()
+        editor.putString("first_name", userResponse.user?.firstName)
+        editor.putString("last_name", userResponse.user?.lastName)
+        editor.putString("email", userResponse.user?.email)
+        editor.putString("address", userResponse.user?.address)
         editor.apply()
+    }
 
-        val profilePref = getSharedPreferences("user_data", MODE_PRIVATE).edit()
-        profilePref.clear()
-        profilePref.apply()
-
-        Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show()
+    private fun redirectToLogin() {
         startActivity(Intent(this, Activity_Login::class.java))
         finish()
     }
 
-    private fun showSetAddressDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Set Your Address")
-
-        val inflater = layoutInflater
-        val dialogView: View = inflater.inflate(R.layout.activity_set_address, null)
-        builder.setView(dialogView)
-
-        val addressEditText = dialogView.findViewById<EditText>(R.id.addressEditText)
-        val saveAddressButton = dialogView.findViewById<Button>(R.id.saveAddressButton)
-
-        val dialog = builder.create()
-
-        saveAddressButton.setOnClickListener {
-            val address = addressEditText.text.toString().trim()
-            if (address.isNotEmpty()) {
-                saveAddress(address, dialog)
-            } else {
-                addressEditText.error = "Address cannot be empty"
-            }
-        }
-
-        dialog.show()
+    private fun navigateTo(destination: Class<*>) {
+        startActivity(Intent(this, destination))
     }
 
-    private fun saveAddress(address: String, dialog: AlertDialog) {
-        val profilePref = getSharedPreferences("user_data", MODE_PRIVATE)
-        val userEmail = profilePref.getString("email", null)
-
-        if (userEmail == null) {
-            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val requestBody = UpdateAddressRequest(userEmail, address)
-
-        // Debugging
-        Log.d("DEBUG", "Sending Update Request: Email=${requestBody.email}, Address=${requestBody.address}")
-
-        RetrofitClient.instance.updateAddress(requestBody)
-            .enqueue(object : Callback<ApiResponse> {
-                override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                    Log.d("DEBUG", "Response Code: ${response.code()}, Body: ${response.body()}")
-
-                    if (response.isSuccessful && response.body() != null) {
-                        val apiResponse = response.body()
-                        if (apiResponse!!.success) {
-                            sharedPreferences.edit().putString("address", address).apply()
-                            addressTextView.text = address
-                            Toast.makeText(this@Activity_Profile, "Address updated!", Toast.LENGTH_SHORT).show()
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(this@Activity_Profile, apiResponse.message, Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(this@Activity_Profile, "Server error. Try again!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                    Log.e("DEBUG", "Request failed: ${t.message}")
-                    Toast.makeText(this@Activity_Profile, "Request failed: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun loadAddress() {
-        val savedAddress = sharedPreferences.getString("address", null)
-        if (savedAddress != null) {
-            addressTextView.text = savedAddress
-        }
+    private fun logoutUser() {
+        sharedPreferences.edit().clear().apply()
+        getSharedPreferences("user_data", MODE_PRIVATE).edit().clear().apply()
+
+        showToast("Logged out successfully!")
+        redirectToLogin()
     }
 }

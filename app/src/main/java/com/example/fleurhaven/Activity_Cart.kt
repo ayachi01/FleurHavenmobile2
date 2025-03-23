@@ -3,6 +3,7 @@ package com.example.fleurhaven
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -29,13 +30,19 @@ class Activity_Cart : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
+        // Retrieve userId from SharedPreferences
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         userId = sharedPreferences.getInt("user_id", -1)
 
         if (userId == -1) {
             Toast.makeText(this, "Please log in to view your cart.", Toast.LENGTH_SHORT).show()
+            Log.e("Activity_Cart", "User ID not found in SharedPreferences. Redirecting to login.")
+            startActivity(Intent(this, Activity_Login::class.java))
+            finish()
             return
         }
+
+        Log.d("Activity_Cart", "User ID: $userId - Loading cart items...")
 
         cartItems = mutableListOf()
 
@@ -62,13 +69,16 @@ class Activity_Cart : AppCompatActivity() {
                     cartItems.addAll(response.body()!!)
                     cartAdapter.notifyDataSetChanged()
                     updateCartSummary()
+                    Log.d("Activity_Cart", "Cart items fetched successfully. Count: ${cartItems.size}")
                 } else {
                     Toast.makeText(this@Activity_Cart, "Failed to load cart items.", Toast.LENGTH_SHORT).show()
+                    Log.e("Activity_Cart", "Error fetching cart items: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<CartItem>>, t: Throwable) {
                 Toast.makeText(this@Activity_Cart, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Activity_Cart", "API call failed: ${t.message}")
             }
         })
     }
@@ -81,6 +91,8 @@ class Activity_Cart : AppCompatActivity() {
         val totalAmountTextView: TextView = findViewById(R.id.tv_amount)
         val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
         totalAmountTextView.text = "₱${"%.2f".format(totalAmount)}"
+
+        Log.d("Activity_Cart", "Updated cart summary - Total Amount: ₱$totalAmount")
     }
 
     private fun setupCheckoutButton() {
@@ -88,17 +100,21 @@ class Activity_Cart : AppCompatActivity() {
         checkoutButton.setOnClickListener {
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Your cart is empty!", Toast.LENGTH_SHORT).show()
-            } else {
-                val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
-                val totalItems = cartItems.sumOf { it.quantity }
-
-                val intent = Intent(this, Activity_Checkout::class.java).apply {
-                    putExtra("TOTAL_AMOUNT", totalAmount)
-                    putExtra("TOTAL_ITEMS", totalItems)
-                    putExtra("cartItems", ArrayList(cartItems)) // Pass cartItems as Serializable
-                }
-                startActivity(intent)
+                return@setOnClickListener
             }
+
+            val totalAmount = cartItems.sumOf { it.flower_price * it.quantity }
+            val totalItems = cartItems.sumOf { it.quantity }
+
+            Log.d("Activity_Cart", "Proceeding to checkout - Total Items: $totalItems, Total Amount: ₱$totalAmount")
+
+            val intent = Intent(this, Activity_Checkout::class.java).apply {
+                putExtra("TOTAL_AMOUNT", totalAmount)
+                putExtra("TOTAL_ITEMS", totalItems)
+                putExtra("cartItems", ArrayList(cartItems)) // Pass cartItems as Serializable
+            }
+
+            startActivity(intent)
         }
     }
 

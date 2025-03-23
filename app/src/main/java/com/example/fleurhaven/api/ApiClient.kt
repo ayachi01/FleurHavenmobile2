@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     private const val BASE_URL = "http://10.0.2.2/FleurHavenMobileAPI/"
 
-    private var retrofit: Retrofit? = null
+    var retrofit: Retrofit? = null
 
     fun getClient(): Retrofit {
         if (retrofit == null) {

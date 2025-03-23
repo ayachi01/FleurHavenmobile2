@@ -14,21 +14,28 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY // Logs full request/response body
     }
 
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+    private val client: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
 
-    // ✅ Enable lenient JSON parsing
-    private val gson = GsonBuilder()
-        .setLenient()
-        .create()
+    private val gson by lazy {
+        GsonBuilder()
+            .setLenient() // ✅ Allows parsing of malformed JSON
+            .create()
+    }
 
-    val instance: ApiService by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson)) // ✅ Use lenient Gson
-            .client(client)  // Attach logging
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(client)
             .build()
-            .create(ApiService::class.java)
+    }
+
+    // ✅ Singleton instance of ApiService
+    val apiService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 }

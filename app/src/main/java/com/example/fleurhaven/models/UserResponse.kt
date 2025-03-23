@@ -10,5 +10,9 @@ data class UserResponse(
 
 data class User(
     val id: Int,
-    val email: String
+    val email: String,
+    @SerializedName("first_name") val firstName: String,
+    @SerializedName("last_name") val lastName: String,
+    val address: String
 )
+

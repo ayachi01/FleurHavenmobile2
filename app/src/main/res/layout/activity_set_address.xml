@@ -6,14 +6,14 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/addressEditText"
+        android:id="@+id/dialogAddressEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your complete address"
         android:fontFamily="@font/albertsans"/>
 
     <Button
-        android:id="@+id/saveAddressButton"
+        android:id="@+id/dialogSaveAddressButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Address"

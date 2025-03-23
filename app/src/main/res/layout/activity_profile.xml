@@ -59,6 +59,7 @@
 
     <!-- Email -->
     <TextView
+        android:id="@+id/firstNameTxt"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="310dp"
@@ -74,6 +75,7 @@
         android:gravity="start|center_vertical" />
 
     <TextView
+        android:id="@+id/lastNameTxt"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="390dp"
@@ -104,25 +106,21 @@
         android:textStyle="bold"
         android:gravity="start|center_vertical" />
 
-    <EditText
-        android:id="@+id/addressEditText"
+    <TextView
+        android:id="@+id/address_txt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="560dp"
-        android:hint="Enter your complete address"
-        android:fontFamily="@font/albertsans" />
-
-    <Button
-        android:id="@+id/saveAddressButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Address"
-        android:layout_gravity="end"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="600dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="550dp"
+        android:elevation="10dp"
+        android:background="#FBDADE"
+        android:paddingStart="20dp"
+        android:paddingBottom="5dp"
+        android:text="Address"
+        android:textSize="18sp"
         android:fontFamily="@font/albertsans"
-        android:backgroundTint="#FBDADE"
-        android:textStyle="bold" />
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:gravity="start|center_vertical" />
 
     <!-- Change Password -->
     <EditText
@@ -162,7 +160,7 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-    <!-- Bottom Navigation Bar -->
+    <!-- BOTTOM NAVIGATION BAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -174,13 +172,15 @@
         android:paddingStart="20dp"
         android:paddingTop="5dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:weightSum="5">
 
         <!-- Home Icon -->
         <ImageButton
             android:id="@+id/home_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/home"
             android:scaleType="fitCenter"
@@ -197,13 +197,14 @@
             <!-- Cart Icon -->
             <ImageButton
                 android:id="@+id/cart_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/cart"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/shopping_cart" />
+                app:srcCompat="@drawable/cart" />
 
             <!-- Cart Count Badge -->
             <TextView
@@ -218,19 +219,21 @@
                 android:gravity="center"
                 android:visibility="gone"
                 android:layout_gravity="top|center"
-                android:layout_marginStart="15dp" />
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"/>
         </FrameLayout>
 
         <!-- Profile Icon -->
         <ImageButton
             android:id="@+id/profile_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
             android:layout_marginStart="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/person_icon" />
+            app:srcCompat="@drawable/person" />
 
         <FrameLayout
             android:layout_width="40dp"
@@ -238,15 +241,17 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <!-- Order Icon -->
+            <!-- Profile Icon -->
             <ImageButton
                 android:id="@+id/order_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:contentDescription="@string/profile"
                 android:scaleType="fitCenter"
-                android:background="@drawable/order_icon" />
+                android:layout_gravity="center"
+                android:background="@drawable/orders" />
         </FrameLayout>
+
     </LinearLayout>
 </RelativeLayout>

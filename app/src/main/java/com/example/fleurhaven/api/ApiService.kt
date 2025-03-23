@@ -8,9 +8,13 @@ import com.example.fleurhaven.models.CartRequest
 import com.example.fleurhaven.models.CheckoutRequest
 import com.example.fleurhaven.models.CheckoutResponse
 import com.example.fleurhaven.models.Flower
+import com.example.fleurhaven.models.OrderRequest
+import com.example.fleurhaven.models.OrderResponse
 import com.example.fleurhaven.models.RemoveCartItemRequest
 import com.example.fleurhaven.models.UpdateAddressRequest
 import com.example.fleurhaven.models.UpdateCartItemRequest
+import com.example.fleurhaven.models.UserProfileResponse
+import com.example.fleurhaven.models.UserUpdateRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -54,5 +58,17 @@ interface ApiService {
         @Query("user_id") userId: Int,
         @Query("flower_id") flowerId: Int
     ): Call<ApiResponse>
+
+    @POST("place_order.php")
+    fun placeOrder(@Body orderRequest: OrderRequest): Call<OrderResponse>
+
+    @GET("get_user_profile.php")
+    fun getUserProfile(@Query("user_id") userId: Int): Call<UserProfileResponse>
+
+    @GET("get_user.php")
+    fun getUserDetails(@Query("user_id") userId: Int): Call<UserResponse>
+
+    @POST("update_user.php")
+    fun updateUser(@Body request: UserUpdateRequest): Call<ApiResponse>
 
 }
