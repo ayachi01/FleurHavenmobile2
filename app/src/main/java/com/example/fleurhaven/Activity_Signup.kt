@@ -81,7 +81,7 @@ class Activity_Signup : AppCompatActivity() {
 
     private fun performSignup(email: String, password: String) {
         val request = SignupRequest(email, password)
-        RetrofitClient.instance.registerUser(request)
+        RetrofitClient.apiService.registerUser(request)
             .enqueue(object : Callback<UserResponse> {
                 override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                     if (response.isSuccessful) {

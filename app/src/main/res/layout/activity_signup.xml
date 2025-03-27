@@ -84,6 +84,7 @@
         android:textColor="#000000" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordToggle"
         android:layout_width="303dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

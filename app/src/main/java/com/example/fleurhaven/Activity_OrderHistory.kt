@@ -1,113 +1,160 @@
 package com.example.fleurhaven
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.fleurhaven.adapters.OrderHistoryAdapter
+import com.example.fleurhaven.api.RetrofitClient
+import com.example.fleurhaven.models.Order
+import com.example.fleurhaven.models.OrderHistoryResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import androidx.core.content.ContextCompat
 
 class Activity_OrderHistory : AppCompatActivity() {
 
-    private lateinit var statusList: List<TextView>
-    private lateinit var cancelButton: Button
-    private lateinit var receivedButton: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var orderAdapter: OrderHistoryAdapter
+    private var userId: Int = -1
+    private var allOrders: List<Order> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orderhistory)
 
-        // Initialize navigation icons
-        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
-        val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
-        val profileIcon = findViewById<ImageButton>(R.id.profile_icon)
-        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
+        // Retrieve user ID from SharedPreferences
+        val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        userId = sharedPreferences.getInt("user_id", -1)
+        Log.d("DEBUG", "Retrieved user_id: $userId")
 
-        // Initialize status list and buttons
-        statusList = listOf(
-            findViewById(R.id.status_processing),
-            findViewById(R.id.status_delivery),
-            findViewById(R.id.status_completed),
-            findViewById(R.id.status_canceled)
-        )
-        cancelButton = findViewById(R.id.cancel_button)
-        receivedButton = findViewById(R.id.received_button)
+        if (userId == -1) {
+            Toast.makeText(this, "Error: User not logged in", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        // Set click listener for status updates
-        statusList.forEach { status ->
-            status.setOnClickListener {
-                highlightStatus(status)
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewOrders)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        orderAdapter = OrderHistoryAdapter(this, mutableListOf(), {}, {})
+        recyclerView.adapter = orderAdapter
+
+        // Fetch order history
+        fetchOrderHistory()
+
+        // Setup navigation and filters
+        setupNavigation()
+        setupStatusFilters()
+    }
+
+    private fun fetchOrderHistory() {
+        val apiService = RetrofitClient.apiService
+        apiService.getOrderHistory(userId).enqueue(object : Callback<OrderHistoryResponse> {
+            override fun onResponse(call: Call<OrderHistoryResponse>, response: Response<OrderHistoryResponse>) {
+                if (response.isSuccessful) {
+                    val orderHistoryResponse = response.body()
+
+                    if (orderHistoryResponse != null && orderHistoryResponse.orders.isNotEmpty()) {
+                        val updatedOrders = orderHistoryResponse.orders.map { orderResponse ->
+                            Order(
+                                id = orderResponse.id,
+                                flowerName = orderResponse.flowerName ?: "Unknown",
+                                flowerPrice = orderResponse.flowerPrice.toDoubleOrNull() ?: 0.0, // Convert String to Double
+                                quantity = orderResponse.quantity,
+                                image_url = orderResponse.flowerImage, // Send only filename, adapter handles URL construction
+                                status = orderResponse.status
+                            )
+                        }
+                        allOrders = updatedOrders
+
+                        // Filter only "Processing" orders by default
+                        val processingOrders = updatedOrders.filter { it.status?.trim()?.equals("Processing", ignoreCase = true) == true }
+                        orderAdapter.updateOrders(processingOrders)
+
+                    } else {
+                        Toast.makeText(this@Activity_OrderHistory, "No orders found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@Activity_OrderHistory, "Failed to fetch order history", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<OrderHistoryResponse>, t: Throwable) {
+                Toast.makeText(this@Activity_OrderHistory, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+    private fun setupStatusFilters() {
+        val processing = findViewById<TextView>(R.id.status_processing)
+        val delivery = findViewById<TextView>(R.id.status_delivery)
+        val completed = findViewById<TextView>(R.id.status_completed)
+        val cancelled = findViewById<TextView>(R.id.status_canceled)
+
+        val statusTabs = listOf(processing, delivery, completed, cancelled)
+
+        statusTabs.forEach { tab ->
+            tab.setOnClickListener {
+                // Reset all tabs
+                statusTabs.forEach { it.setBackgroundResource(R.drawable.status_background) }
+                statusTabs.forEach { it.setTextColor(ContextCompat.getColor(this, R.color.black)) }
+
+                // Highlight selected tab
+                tab.setBackgroundResource(R.drawable.status_highlight)
+                tab.setTextColor(ContextCompat.getColor(this, R.color.white))
+
+                // Trim and pass the text correctly
+                val selectedStatus = tab.text.toString().trim()
+                Log.d("DEBUG", "Selected Status: $selectedStatus")
+                filterOrders(selectedStatus)
             }
         }
 
-        // Handle button clicks
-        cancelButton.setOnClickListener {
-            cancelOrder()
+        // Set Processing as default
+        processing.setBackgroundResource(R.drawable.status_highlight)
+        processing.setTextColor(ContextCompat.getColor(this, R.color.white))
+        filterOrders("Processing") // Display processing orders by default
+    }
+
+
+
+    private fun filterOrders(status: String) {
+        val filteredList = allOrders.filter { it.status?.trim()?.equals(status.trim(), ignoreCase = true) == true }
+
+        Log.d("DEBUG", "Filtering by status: $status")
+        Log.d("DEBUG", "Filtered Orders Count: ${filteredList.size}")
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "No orders found for $status", Toast.LENGTH_SHORT).show()
         }
 
-        receivedButton.setOnClickListener {
-            completeOrder()
-        }
+        orderAdapter.updateOrders(filteredList)
+    }
 
-        // Handle navigation
-        homeIcon.setOnClickListener {
+
+    private fun setupNavigation() {
+        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
             startActivity(Intent(this, Activity_Main::class.java))
         }
-
-        cartIcon.setOnClickListener {
+        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
             startActivity(Intent(this, Activity_Cart::class.java))
         }
-
-        profileIcon.setOnClickListener {
+        findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
             startActivity(Intent(this, Activity_Profile::class.java))
         }
-
-        orderIcon.setOnClickListener {
+        findViewById<ImageButton>(R.id.order_icon).setOnClickListener {
             startActivity(Intent(this, Activity_OrderHistory::class.java))
         }
-
-        // Default to Processing status
-        highlightStatus(findViewById(R.id.status_processing))
-    }
-
-    private fun highlightStatus(selectedStatus: TextView) {
-        statusList.forEach { status ->
-            if (status == selectedStatus) {
-                status.setBackgroundResource(R.drawable.status_highlight)
-                status.setTextColor(Color.WHITE)
-
-                // Handle button visibility based on status
-                when (status.id) {
-                    R.id.status_processing -> {
-                        cancelButton.visibility = View.VISIBLE
-                        receivedButton.visibility = View.GONE
-                    }
-                    R.id.status_delivery -> {
-                        cancelButton.visibility = View.GONE
-                        receivedButton.visibility = View.VISIBLE
-                    }
-                    else -> {
-                        cancelButton.visibility = View.GONE
-                        receivedButton.visibility = View.GONE
-                    }
-                }
-            } else {
-                status.setBackgroundResource(R.drawable.status_background)
-                status.setTextColor(Color.BLACK)
-            }
-        }
-    }
-
-    private fun cancelOrder() {
-        highlightStatus(findViewById(R.id.status_canceled))
-        Toast.makeText(this, "Order canceled", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun completeOrder() {
-        highlightStatus(findViewById(R.id.status_completed))
-        Toast.makeText(this, "Order received", Toast.LENGTH_SHORT).show()
     }
 }

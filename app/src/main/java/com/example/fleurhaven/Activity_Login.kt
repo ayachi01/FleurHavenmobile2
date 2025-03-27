@@ -27,21 +27,7 @@ class Activity_Login : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         val loginButton = findViewById<Button>(R.id.loginBtn)
         val signUpText = findViewById<TextView>(R.id.signupText)
-        val passwordToggle = findViewById<ImageView>(R.id.passwordToggle)
         val errorMessage = findViewById<TextView>(R.id.errorMessage)
-
-        // Password visibility toggle functionality
-        passwordToggle.setOnClickListener {
-            isPasswordVisible = !isPasswordVisible
-            if (isPasswordVisible) {
-                passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                passwordToggle.setImageResource(R.drawable.eye_open)
-            } else {
-                passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-                passwordToggle.setImageResource(R.drawable.eye_close)
-            }
-            passwordEditText.setSelection(passwordEditText.text.length)
-        }
 
         // Redirect to Signup Activity
         signUpText.setOnClickListener {

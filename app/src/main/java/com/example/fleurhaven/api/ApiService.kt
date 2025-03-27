@@ -8,8 +8,10 @@ import com.example.fleurhaven.models.CartRequest
 import com.example.fleurhaven.models.CheckoutRequest
 import com.example.fleurhaven.models.CheckoutResponse
 import com.example.fleurhaven.models.Flower
+import com.example.fleurhaven.models.OrderHistoryResponse
 import com.example.fleurhaven.models.OrderRequest
 import com.example.fleurhaven.models.OrderResponse
+import com.example.fleurhaven.models.OrderStatusUpdateRequest
 import com.example.fleurhaven.models.RemoveCartItemRequest
 import com.example.fleurhaven.models.UpdateAddressRequest
 import com.example.fleurhaven.models.UpdateCartItemRequest
@@ -70,5 +72,12 @@ interface ApiService {
 
     @POST("update_user.php")
     fun updateUser(@Body request: UserUpdateRequest): Call<ApiResponse>
+
+    @GET("get_order_history.php")
+    fun getOrderHistory(@Query("user_id") userId: Int): Call<OrderHistoryResponse>
+
+    @POST("update_order_status.php")
+    fun updateOrderStatus(@Body request: OrderStatusUpdateRequest): Call<ApiResponse>
+
 
 }

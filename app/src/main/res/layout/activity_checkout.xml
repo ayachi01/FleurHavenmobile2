@@ -207,12 +207,12 @@
             android:layout_marginBottom="4dp">
         </EditText>
 
-        <!-- Order Option -->
+        <!-- Mode of Delivery -->
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order Option"
+            android:text="Delivery"
             android:layout_marginStart="18dp"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -233,38 +233,13 @@
                 android:layout_gravity="center"
                 android:background="@drawable/border_checkout"
                 android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="In-store Pickup"
-                    android:fontFamily="@font/albertsans"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <RadioButton
-                    android:id="@+id/rb_instore_pickup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_gravity="center"
-                android:background="@drawable/border_checkout"
-                android:padding="12dp"
                 android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Deliver"
+                    android:text="Delivery"
                     android:fontFamily="@font/albertsans"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
@@ -283,7 +258,7 @@
             android:layout_marginTop="16dp"
            android:layout_marginStart="18dp"
             android:fontFamily="@font/albertsans"
-            android:text="Select Payment Method"
+            android:text="Payment Method"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"/>
@@ -302,38 +277,13 @@
                 android:layout_gravity="center"
                 android:background="@drawable/border_checkout"
                 android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="E-Wallet"
-                    android:fontFamily="@font/albertsans"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <RadioButton
-                    android:id="@+id/rb_e_wallet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_gravity="center"
-                android:background="@drawable/border_checkout"
-                android:padding="12dp"
                 android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Cash on Delivery\nPay when you receive (for Delivery Only)"
+                    android:text="Cash on Delivery\nPay when you receive"
                     android:fontFamily="@font/albertsans"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"/>
