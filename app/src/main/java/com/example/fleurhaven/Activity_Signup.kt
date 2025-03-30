@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fleurhaven.api.RetrofitClient
 import com.example.fleurhaven.models.SignupRequest
 import com.example.fleurhaven.models.UserResponse
+import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,11 +28,16 @@ class Activity_Signup : AppCompatActivity() {
         val confirmPasswordEditText = findViewById<EditText>(R.id.passwconfEditText)
         val signupButton = findViewById<Button>(R.id.submitBtn)
         val loginText = findViewById<TextView>(R.id.signinText)
-        val passwordToggle = findViewById<ImageView>(R.id.passwordToggle)
-        val confirmPasswordToggle = findViewById<ImageView>(R.id.confirmPasswordToggle)
+        val passwordLayout = findViewById<TextInputLayout>(R.id.passwordToggle)
+        val confirmPasswordToggle = findViewById<TextInputLayout>(R.id.confirmPasswordToggle)
 
-        passwordToggle.setOnClickListener { togglePasswordVisibility(passwordEditText, passwordToggle) }
-        confirmPasswordToggle.setOnClickListener { togglePasswordVisibility(confirmPasswordEditText, confirmPasswordToggle) }
+        passwordLayout.setEndIconOnClickListener {
+            togglePasswordVisibility(passwordEditText) // ✅ Only pass EditText
+        }
+
+        confirmPasswordToggle.setOnClickListener {
+            togglePasswordVisibility(confirmPasswordEditText) // ✅ No extra argument
+        }
 
         loginText.setOnClickListener {
             startActivity(Intent(this, Activity_Login::class.java))
@@ -48,11 +54,10 @@ class Activity_Signup : AppCompatActivity() {
         }
     }
 
-    private fun togglePasswordVisibility(editText: EditText, toggle: ImageView) {
+    private fun togglePasswordVisibility(editText: EditText) {
         val isVisible = editText.transformationMethod !is PasswordTransformationMethod
         editText.transformationMethod = if (isVisible) PasswordTransformationMethod.getInstance() else HideReturnsTransformationMethod.getInstance()
-        toggle.setImageResource(if (isVisible) R.drawable.eye_close else R.drawable.eye_open)
-        editText.setSelection(editText.text.length)
+        editText.setSelection(editText.text.length) // Keeps cursor at the end
     }
 
     private fun validateInput(email: String, password: String, confirmPassword: String, emailEditText: EditText, passwordEditText: EditText, confirmPasswordEditText: EditText): Boolean {

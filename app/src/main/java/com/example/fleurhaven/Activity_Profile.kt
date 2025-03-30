@@ -1,8 +1,6 @@
 package com.example.fleurhaven
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -19,46 +17,47 @@ class Activity_Profile : AppCompatActivity() {
     private lateinit var firstNameTextView: TextView
     private lateinit var lastNameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var sharedPreferences: SharedPreferences
+    private var userId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        sharedPreferences = getSharedPreferences("User_Profile", Context.MODE_PRIVATE)
+        userId = intent.getIntExtra("user_id", -1).takeIf { it != -1 }
+        Log.d("ProfileActivity", "Received user_id: $userId")
 
-        val profilePref = getSharedPreferences("user_data", MODE_PRIVATE)
-        val userId = profilePref.getInt("user_id", -1)
+        if (userId == null) {
+            redirectToLogin()
+            return
+        }
 
-        val homeIcon = findViewById<ImageButton>(R.id.home_icon)
-        val cartIcon = findViewById<ImageButton>(R.id.cart_icon)
-        val orderIcon = findViewById<ImageButton>(R.id.order_icon)
         addressTextView = findViewById(R.id.address_txt)
         firstNameTextView = findViewById(R.id.firstNameTxt)
         lastNameTextView = findViewById(R.id.lastNameTxt)
         emailTextView = findViewById(R.id.email_txt)
         val logoutButton = findViewById<Button>(R.id.LogoutButton)
 
-        if (userId == -1) {
-            redirectToLogin()
-            return
+        fetchUserDetails(userId!!)
+        setupNavigation()
+
+        logoutButton.setOnClickListener { logoutUser() }
+    }
+
+    private fun setupNavigation() {
+        findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
+            navigateTo(Activity_Main::class.java)
         }
-
-        fetchUserDetails(userId)
-
-        homeIcon.setOnClickListener { navigateTo(Activity_Main::class.java) }
-        orderIcon.setOnClickListener { navigateTo(Activity_OrderHistory::class.java) }
-
-        cartIcon.setOnClickListener {
+        findViewById<ImageButton>(R.id.order_icon).setOnClickListener {
+            navigateTo(Activity_OrderHistory::class.java)
+        }
+        findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
             val userAddress = addressTextView.text.toString()
-            if (userAddress.isNullOrEmpty() || userAddress == "No address set") {
+            if (userAddress.isEmpty() || userAddress == "No address set") {
                 showToast("Please set your address before proceeding to the cart.")
             } else {
                 navigateTo(Activity_Cart::class.java)
             }
         }
-
-        logoutButton.setOnClickListener { logoutUser() }
     }
 
     private fun fetchUserDetails(userId: Int) {
@@ -69,13 +68,13 @@ class Activity_Profile : AppCompatActivity() {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
                     val userResponse = response.body()
+                    Log.d("ProfileActivity", "Fetched user: $userResponse")
+
                     if (userResponse != null && userResponse.success) {
                         firstNameTextView.text = userResponse.user?.firstName ?: "N/A"
                         lastNameTextView.text = userResponse.user?.lastName ?: "N/A"
                         emailTextView.text = userResponse.user?.email ?: "N/A"
                         addressTextView.text = userResponse.user?.address ?: "No address set"
-
-                        saveUserDataToPrefs(userResponse)
                     } else {
                         showToast("Failed to retrieve user data")
                     }
@@ -91,22 +90,15 @@ class Activity_Profile : AppCompatActivity() {
         })
     }
 
-    private fun saveUserDataToPrefs(userResponse: UserResponse) {
-        val editor = getSharedPreferences("user_data", MODE_PRIVATE).edit()
-        editor.putString("first_name", userResponse.user?.firstName)
-        editor.putString("last_name", userResponse.user?.lastName)
-        editor.putString("email", userResponse.user?.email)
-        editor.putString("address", userResponse.user?.address)
-        editor.apply()
-    }
-
     private fun redirectToLogin() {
         startActivity(Intent(this, Activity_Login::class.java))
         finish()
     }
 
     private fun navigateTo(destination: Class<*>) {
-        startActivity(Intent(this, destination))
+        val intent = Intent(this, destination)
+        intent.putExtra("user_id", userId)
+        startActivity(intent)
     }
 
     private fun showToast(message: String) {
@@ -114,9 +106,6 @@ class Activity_Profile : AppCompatActivity() {
     }
 
     private fun logoutUser() {
-        sharedPreferences.edit().clear().apply()
-        getSharedPreferences("user_data", MODE_PRIVATE).edit().clear().apply()
-
         showToast("Logged out successfully!")
         redirectToLogin()
     }

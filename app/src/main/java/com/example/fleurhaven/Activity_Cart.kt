@@ -1,6 +1,5 @@
 package com.example.fleurhaven
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,30 +23,26 @@ class Activity_Cart : AppCompatActivity() {
 
     private lateinit var cartItems: MutableList<CartItem>
     private lateinit var cartAdapter: CartAdapter
-    private var userId: Int = -1
+    private var userId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        // Retrieve userId from SharedPreferences
-        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        userId = sharedPreferences.getInt("user_id", -1)
+        userId = intent.getIntExtra("user_id", -1).takeIf { it != -1 }
+        Log.d("Activity_Cart", "Received user_id: $userId")
 
-        if (userId == -1) {
+        if (userId == null) {
             Toast.makeText(this, "Please log in to view your cart.", Toast.LENGTH_SHORT).show()
-            Log.e("Activity_Cart", "User ID not found in SharedPreferences. Redirecting to login.")
+            Log.e("Activity_Cart", "User ID not found. Redirecting to login.")
             startActivity(Intent(this, Activity_Login::class.java))
             finish()
             return
         }
 
-        Log.d("Activity_Cart", "User ID: $userId - Loading cart items...")
-
         cartItems = mutableListOf()
-
         val recyclerView: RecyclerView = findViewById(R.id.cart_recyclerview)
-        cartAdapter = CartAdapter(this, cartItems, userId) {
+        cartAdapter = CartAdapter(this, cartItems, userId!!) {
             updateCartSummary()
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -60,7 +55,7 @@ class Activity_Cart : AppCompatActivity() {
 
     private fun fetchCartItems() {
         val apiService = ApiClient.getClient().create(ApiService::class.java)
-        val call = apiService.getCartItems(userId)
+        val call: Call<List<CartItem>> = apiService.getCartItems(userId!!)
 
         call.enqueue(object : Callback<List<CartItem>> {
             override fun onResponse(call: Call<List<CartItem>>, response: Response<List<CartItem>>) {
@@ -111,24 +106,54 @@ class Activity_Cart : AppCompatActivity() {
             val intent = Intent(this, Activity_Checkout::class.java).apply {
                 putExtra("TOTAL_AMOUNT", totalAmount)
                 putExtra("TOTAL_ITEMS", totalItems)
-                putExtra("cartItems", ArrayList(cartItems)) // Pass cartItems as Serializable
+                putExtra("cartItems", ArrayList(cartItems))
+                putExtra("user_id", userId)
             }
 
             startActivity(intent)
+            clearCartAfterCheckout(userId!!)
         }
+    }
+
+    private fun clearCartAfterCheckout(userId: Int) {
+        val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val call: Call<Void> = apiService.clearCart(userId)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    cartItems.clear()
+                    cartAdapter.notifyDataSetChanged()
+                    updateCartSummary()
+                    Log.d("Activity_Cart", "Cart cleared successfully after checkout.")
+                } else {
+                    Log.e("Activity_Cart", "Failed to clear cart: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("Activity_Cart", "Error clearing cart: ${t.message}")
+            }
+        })
     }
 
     private fun setupNavigationBar() {
         findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Main::class.java))
+            val intent = Intent(this, Activity_Main::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Cart::class.java))
+            val intent = Intent(this, Activity_Cart::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Profile::class.java))
+            val intent = Intent(this, Activity_Profile::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
     }
 }

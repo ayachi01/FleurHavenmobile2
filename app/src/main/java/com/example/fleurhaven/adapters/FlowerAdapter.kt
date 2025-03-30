@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.fleurhaven.Activity_Main
 import com.example.fleurhaven.R
 import com.example.fleurhaven.api.ApiClient
 import com.example.fleurhaven.models.ApiResponse
@@ -23,11 +22,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FlowerAdapter(private val context: Context, private var flowerList: MutableList<Flower>) :
-    RecyclerView.Adapter<FlowerAdapter.ViewHolder>() {
-
-    private val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-    private val userId = sharedPreferences.getInt("user_id", -1) // Get userId as Int
+class FlowerAdapter(
+    private val context: Context,
+    private var flowerList: MutableList<Flower>,
+    private val userId: Int // User ID passed from the calling activity
+) : RecyclerView.Adapter<FlowerAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.flowerImage)
@@ -74,10 +73,10 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
                     val cartItemExists = response.body()?.success == true
-                    val quantity = response.body()?.quantity ?: 0  // Get existing quantity
+                    val quantity = response.body()?.quantity ?: 0
 
                     if (cartItemExists && quantity > 0) {
-                        updateCartQuantity(flower, quantity) // Pass current quantity
+                        updateCartQuantity(flower, quantity)
                     } else {
                         addToCart(flower)
                     }
@@ -90,37 +89,16 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
         })
     }
 
-
     private fun addToCart(flower: Flower) {
         val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val cartRequest = CartRequest(user_id = userId, flower_id = flower.id, quantity = 1)
 
-        val checkCall = apiService.checkCartItem(userId, flower.id)
-        checkCall.enqueue(object : Callback<ApiResponse> {
+        apiService.addToCart(cartRequest).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful && response.body()?.success == true) {
-                    Toast.makeText(context, "${flower.name} is already in the cart!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
                 } else {
-                    // If the item is not in the cart, proceed to add it
-                    val cartRequest = CartRequest(
-                        user_id = userId,
-                        flower_id = flower.id,
-                        quantity = 1
-                    )
-
-                    val addCall = apiService.addToCart(cartRequest)
-                    addCall.enqueue(object : Callback<ApiResponse> {
-                        override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                            if (response.isSuccessful && response.body()?.success == true) {
-                                Toast.makeText(context, "${flower.name} added to cart!", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context, "Failed to add to cart: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    })
+                    Toast.makeText(context, "Failed to add to cart: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -130,17 +108,11 @@ class FlowerAdapter(private val context: Context, private var flowerList: Mutabl
         })
     }
 
-
     private fun updateCartQuantity(flower: Flower, currentQuantity: Int) {
         val apiService = ApiClient.getClient().create(ApiService::class.java)
+        val newQuantity = currentQuantity + 1
 
-        val newQuantity = currentQuantity + 1  // Ensure only 1 increment happens
-
-        val updateRequest = UpdateCartItemRequest(
-            userId = userId,
-            id = flower.id,
-            quantity = newQuantity
-        )
+        val updateRequest = UpdateCartItemRequest(userId = userId, id = flower.id, quantity = newQuantity)
 
         apiService.updateCartItem(updateRequest).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

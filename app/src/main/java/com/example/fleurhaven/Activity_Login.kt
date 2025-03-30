@@ -1,10 +1,7 @@
 package com.example.fleurhaven
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -17,8 +14,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Activity_Login : AppCompatActivity() {
-    private var isPasswordVisible = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -66,16 +61,10 @@ class Activity_Login : AppCompatActivity() {
                             if (userResponse != null && userResponse.success) {
                                 val userId = userResponse.user?.id
                                 if (userId != null) {
-                                    // Save the user ID in SharedPreferences
-                                    val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-                                    with(sharedPreferences.edit()) {
-                                        putInt("user_id", userId) // Store user ID
-                                        putString("email", email) // Store email
-                                        apply()
-                                    }
-                                    errorMessage.visibility = View.GONE // Hide error message if login is correct
-                                    Toast.makeText(this@Activity_Login, userResponse.message, Toast.LENGTH_SHORT).show()
-                                    startActivity(Intent(this@Activity_Login, Activity_Main::class.java))
+                                    // Redirect to Activity_Main with user ID
+                                    val mainIntent = Intent(this@Activity_Login, Activity_Main::class.java)
+                                    mainIntent.putExtra("user_id", userId)
+                                    startActivity(mainIntent)
                                     finish()
                                 } else {
                                     errorMessage.visibility = View.VISIBLE

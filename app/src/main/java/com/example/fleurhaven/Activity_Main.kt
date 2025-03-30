@@ -1,6 +1,5 @@
 package com.example.fleurhaven
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -28,16 +27,20 @@ class Activity_Main : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Retrieve user ID from SharedPreferences
-        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        userId = sharedPreferences.getInt("user_id", -1).takeIf { it != -1 }
-
-        if (userId == null) {
+        // Retrieve user ID from Intent
+        userId = intent.getIntExtra("user_id", -1)
+        if (userId == -1) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, Activity_Login::class.java))
             finish()
             return
         }
+
+        // Initialize RecyclerView and Adapter
+        recyclerView = findViewById(R.id.flowerRecyclerView)
+        adapter = FlowerAdapter(this, mutableListOf(), userId ?: -1) // Initialize with an empty list
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.adapter = adapter
 
         // Navigation Bar Logic
         findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
@@ -51,14 +54,10 @@ class Activity_Main : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Profile::class.java))
+            val intent = Intent(this, Activity_Profile::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
-
-        // RecyclerView Setup
-        recyclerView = findViewById(R.id.flowerRecyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
-        adapter = FlowerAdapter(this, mutableListOf())
-        recyclerView.adapter = adapter
 
         // Fetch flowers from API
         fetchFlowers()
@@ -83,7 +82,7 @@ class Activity_Main : AppCompatActivity() {
                     adapter.updateFlowers(flowers)
                     Toast.makeText(this@Activity_Main, "Flowers loaded successfully!", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.e("API_ERROR", "Error loading flowers")
+                    Log.e("API_ERROR", "Error loading flowers. Response code: ${response.code()}, Response body: ${response.errorBody()?.string()}")
                     Toast.makeText(this@Activity_Main, "Error loading flowers", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -95,16 +94,13 @@ class Activity_Main : AppCompatActivity() {
         })
     }
 
-    fun updateCartCount() {
-        val cartPreferences = getSharedPreferences("cart_data", Context.MODE_PRIVATE)
-        val cartItemsString = cartPreferences.getString("cart_items_${userId}", null)
-        val cartItems = cartItemsString?.split(",")?.filter { it.isNotEmpty() } ?: emptyList()
-
+    private fun updateCartCount() {
+        // Placeholder logic for cart count
+        val cartItems = listOf<String>() // Replace with actual cart fetching logic
         runOnUiThread {
             cartCountTextView.text = cartItems.size.toString()
             cartCountTextView.visibility = if (cartItems.isNotEmpty()) View.VISIBLE else View.GONE
         }
-
         Log.d("CART_DEBUG", "Cart items for user $userId: $cartItems")
     }
 

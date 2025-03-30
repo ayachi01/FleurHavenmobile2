@@ -1,8 +1,6 @@
 package com.example.fleurhaven
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fleurhaven.adapters.OrderHistoryAdapter
@@ -19,7 +18,6 @@ import com.example.fleurhaven.models.OrderHistoryResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import androidx.core.content.ContextCompat
 
 class Activity_OrderHistory : AppCompatActivity() {
 
@@ -32,9 +30,8 @@ class Activity_OrderHistory : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orderhistory)
 
-        // Retrieve user ID from SharedPreferences
-        val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        userId = sharedPreferences.getInt("user_id", -1)
+        // Retrieve user ID from Intent
+        userId = intent.getIntExtra("user_id", -1)
         Log.d("DEBUG", "Retrieved user_id: $userId")
 
         if (userId == -1) {
@@ -69,9 +66,9 @@ class Activity_OrderHistory : AppCompatActivity() {
                             Order(
                                 id = orderResponse.id,
                                 flowerName = orderResponse.flowerName ?: "Unknown",
-                                flowerPrice = orderResponse.flowerPrice.toDoubleOrNull() ?: 0.0, // Convert String to Double
+                                flowerPrice = orderResponse.flowerPrice.toDoubleOrNull() ?: 0.0,
                                 quantity = orderResponse.quantity,
-                                image_url = orderResponse.flowerImage, // Send only filename, adapter handles URL construction
+                                image_url = orderResponse.flowerImage,
                                 status = orderResponse.status
                             )
                         }
@@ -80,7 +77,6 @@ class Activity_OrderHistory : AppCompatActivity() {
                         // Filter only "Processing" orders by default
                         val processingOrders = updatedOrders.filter { it.status?.trim()?.equals("Processing", ignoreCase = true) == true }
                         orderAdapter.updateOrders(processingOrders)
-
                     } else {
                         Toast.makeText(this@Activity_OrderHistory, "No orders found", Toast.LENGTH_SHORT).show()
                     }
@@ -95,7 +91,6 @@ class Activity_OrderHistory : AppCompatActivity() {
         })
     }
 
-
     private fun setupStatusFilters() {
         val processing = findViewById<TextView>(R.id.status_processing)
         val delivery = findViewById<TextView>(R.id.status_delivery)
@@ -106,32 +101,26 @@ class Activity_OrderHistory : AppCompatActivity() {
 
         statusTabs.forEach { tab ->
             tab.setOnClickListener {
-                // Reset all tabs
-                statusTabs.forEach { it.setBackgroundResource(R.drawable.status_background) }
-                statusTabs.forEach { it.setTextColor(ContextCompat.getColor(this, R.color.black)) }
-
-                // Highlight selected tab
+                statusTabs.forEach {
+                    it.setBackgroundResource(R.drawable.status_background)
+                    it.setTextColor(ContextCompat.getColor(this, R.color.black))
+                }
                 tab.setBackgroundResource(R.drawable.status_highlight)
                 tab.setTextColor(ContextCompat.getColor(this, R.color.white))
 
-                // Trim and pass the text correctly
                 val selectedStatus = tab.text.toString().trim()
                 Log.d("DEBUG", "Selected Status: $selectedStatus")
                 filterOrders(selectedStatus)
             }
         }
 
-        // Set Processing as default
         processing.setBackgroundResource(R.drawable.status_highlight)
         processing.setTextColor(ContextCompat.getColor(this, R.color.white))
-        filterOrders("Processing") // Display processing orders by default
+        filterOrders("Processing")
     }
-
-
 
     private fun filterOrders(status: String) {
         val filteredList = allOrders.filter { it.status?.trim()?.equals(status.trim(), ignoreCase = true) == true }
-
         Log.d("DEBUG", "Filtering by status: $status")
         Log.d("DEBUG", "Filtered Orders Count: ${filteredList.size}")
 
@@ -142,19 +131,26 @@ class Activity_OrderHistory : AppCompatActivity() {
         orderAdapter.updateOrders(filteredList)
     }
 
-
     private fun setupNavigation() {
         findViewById<ImageButton>(R.id.home_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Main::class.java))
+            startActivity(Intent(this, Activity_Main::class.java).apply {
+                putExtra("user_id", userId)
+            })
         }
         findViewById<ImageButton>(R.id.cart_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Cart::class.java))
+            startActivity(Intent(this, Activity_Cart::class.java).apply {
+                putExtra("user_id", userId)
+            })
         }
         findViewById<ImageButton>(R.id.profile_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_Profile::class.java))
+            startActivity(Intent(this, Activity_Profile::class.java).apply {
+                putExtra("user_id", userId)
+            })
         }
         findViewById<ImageButton>(R.id.order_icon).setOnClickListener {
-            startActivity(Intent(this, Activity_OrderHistory::class.java))
+            startActivity(Intent(this, Activity_OrderHistory::class.java).apply {
+                putExtra("user_id", userId)
+            })
         }
     }
 }

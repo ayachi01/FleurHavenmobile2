@@ -20,6 +20,8 @@ import com.example.fleurhaven.models.UserUpdateRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -54,6 +56,9 @@ interface ApiService {
 
     @POST("checkout.php")
     fun checkout(@Body request: CheckoutRequest): Call<CheckoutResponse>
+
+    @POST("clear_cart.php")
+    fun clearCart(@Query("user_id") userId: Int): Call<Void>
 
     @GET("check_cart_item.php")
     fun checkCartItem(

@@ -13,6 +13,8 @@ data class User(
     val email: String,
     @SerializedName("first_name") val firstName: String,
     @SerializedName("last_name") val lastName: String,
-    val address: String
+    val address: String,
+    @SerializedName("phone_number") val phoneNumber: String? // Make it nullable
 )
+
 

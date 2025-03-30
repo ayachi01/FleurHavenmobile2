@@ -1,9 +1,9 @@
 package com.example.fleurhaven.models
 
-data class UserUpdateRequest(
+data class UserDetailsUpdate(
+    val userId: Int,
     val firstName: String,
     val lastName: String,
     val address: String,
-    val phone_number: String,
-    val userId: Int
+    val phoneNumber: String
 )
